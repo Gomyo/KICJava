@@ -3,3 +3,6 @@
 *.class
 *.classpath
 *.\settings
+*.\bin
+*.\gitignore
+*.\project

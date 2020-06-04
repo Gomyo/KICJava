@@ -12,9 +12,10 @@ public class ioMain03 {
 		FileOutputStream fos = null;
 		
 		try {
-			fis = new FileInputStream("c:/java/cat.jpg");
+			// 복사 - 바이너리 파일
+			fis = new FileInputStream("c:/java/Lighthouse.jpg");
 			// image jpg -> png도 가능. 10가능~
-			fos = new FileOutputStream("c:/java/copied_cat.png");
+			fos = new FileOutputStream("c:/java/copied_Lighthouse.png");
 			int data =0;
 			
 			while ((data=fis.read()) != -1) {
