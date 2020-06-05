@@ -1,4 +1,4 @@
-package io02;
+package quiz;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -17,8 +17,10 @@ public class postaddressSearcher {
 		*/
 		BufferedReader br = null;
 		
-		SearchDong s = new SearchDong();
-		String d = s.Dong();
+//		SearchDong s = new SearchDong();
+//		String d = s.Dong();
+		SearchGu s = new SearchGu(); 
+		String g = s.Gu();
 		try {
 			br = new BufferedReader(new FileReader("./zipcode_seoul.csv"));
 			String info = null;
@@ -31,7 +33,7 @@ public class postaddressSearcher {
 				 * contains
 				 * equals
 				 * */
-				if (infos[3].contains(d)) {
+				if (infos[2].contains(g)) {
 					System.out.printf("[%s]  %s %s %8s %20s\n",infos[0],infos[1],infos[2],infos[3],infos[5]);
 				}
 				/*if ~

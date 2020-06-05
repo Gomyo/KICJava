@@ -1,4 +1,4 @@
-package io02;
+package quiz;
 
 import java.util.Scanner;
 

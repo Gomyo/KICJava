@@ -2,7 +2,9 @@
 *.project
 *.class
 *.classpath
-*.\settings
-*.\bin
-*.\gitignore
-*.\project
+*.settings
+*.bin
+*.gitignore
+*.project
+*.dat
+*.csv

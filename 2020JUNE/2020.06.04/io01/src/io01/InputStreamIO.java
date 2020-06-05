@@ -1,4 +1,4 @@
-package io03;
+package io01;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -6,7 +6,7 @@ import java.io.ObjectInputStream.GetField;
 
 import javax.sound.sampled.AudioFormat.Encoding;
 
-public class ioMain01 {
+public class InputStreamIO {
 
 	public static void main(String[] args) {
 		// 키보드로 입력
