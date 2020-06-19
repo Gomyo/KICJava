@@ -1,12 +1,33 @@
 1. java lang
-	최고 조상 클래스가 무엇이닞
+	최고 조상 클래스가 무엇인지
+
 2. String / StringBuffer 클래스의 차이
+
 3. Wrapper의 의미와 종류
+
 4. 3가 컬렉션 프레임워크의 장점
+
 5. 멀티스레드 프로그램의 장단점
+
 6. 스레드 생명주기 life cycle 그림
+
 7. 공유자원	- 해결 : lock, synchronized
+
 8. file 입출력
 	byte 단위 / character 단위 입출력 클래스에 대해
-9. byte <-> char 바꿔주는 방법은 뭐냐? input은 써봤지만 output은 안했다고 함
+	
+	Reader /  Writer
+	FileReader / FileWriter
+	BufferedReader / BufferedWriter
+
+9. byte <-> char 바꿔주는 방법은 뭐냐?
+
+	inputStreamReader / OutputStreamWriter
+
+	Stream : 바이트 단위는 바이트 단위로 연결하고 캐릭터 단위는 캐릭터 단위로 연결하는 것이 원칙이다. 하지만 캐릭터는 결국 바이트 2개가 모여서 구성한 데이터이므로, 두 가지를 호환할 수 있는 통로가 있어야 한다. 
+	
+	InputStreamReader는 바이트 스트림에서 문자 스트림으로, 
+	OutputStreamWriter는 문자 스트림에서 바이트 스트림으로의 변환을 제공하는 입출력 스트림이다. 
+	바이트를 읽어서 지정된 문자 인코딩에 따라 문자로 변환하는데 사용한다.
+
 10. sql문을 실행시킬 때 사용하는 클래스는? statement / preparestatement
