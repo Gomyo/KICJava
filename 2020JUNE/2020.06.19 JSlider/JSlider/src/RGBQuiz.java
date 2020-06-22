@@ -99,7 +99,7 @@ public class RGBQuiz extends JFrame {
 			public void stateChanged(ChangeEvent e) {
 				cta.setBackground(new Color(Rslider.getValue(),Gslider.getValue(),Bslider.getValue()));
 				String hex = String.format("#%02x%02x%02x", Rslider.getValue(), Gslider.getValue(), Bslider.getValue());
-				textArea.setText("ÇöÀç »ö : R - "+ Rslider.getValue()+" G - "+Gslider.getValue()+" B - "+Bslider.getValue() + " HexColor : "+hex);
+				textArea.setText("í˜„ìž¬ ìƒ‰ : R - "+ Rslider.getValue()+" G - "+Gslider.getValue()+" B - "+Bslider.getValue() + " HexColor : "+hex);
 				
 			}
 		});
@@ -108,7 +108,7 @@ public class RGBQuiz extends JFrame {
 			public void stateChanged(ChangeEvent e) {
 				cta.setBackground(new Color(Rslider.getValue(),Gslider.getValue(),Bslider.getValue()));
 				String hex = String.format("#%02x%02x%02x", Rslider.getValue(), Gslider.getValue(), Bslider.getValue());
-				textArea.setText("ÇöÀç »ö : R - "+ Rslider.getValue()+" G - "+Gslider.getValue()+" B - "+Bslider.getValue() + " HexColor : "+hex);
+				textArea.setText("í˜„ìž¬ ìƒ‰ : R - "+ Rslider.getValue()+" G - "+Gslider.getValue()+" B - "+Bslider.getValue() + " HexColor : "+hex);
 			}
 		});
 		
@@ -116,7 +116,7 @@ public class RGBQuiz extends JFrame {
 			public void stateChanged(ChangeEvent e) {
 				cta.setBackground(new Color(Rslider.getValue(),Gslider.getValue(),Bslider.getValue()));
 				String hex = String.format("#%02x%02x%02x", Rslider.getValue(), Gslider.getValue(), Bslider.getValue());
-				textArea.setText("ÇöÀç »ö : R - "+ Rslider.getValue()+" G - "+Gslider.getValue()+" B - "+Bslider.getValue() + " HexColor : "+hex);
+				textArea.setText("í˜„ìž¬ ìƒ‰ : R - "+ Rslider.getValue()+" G - "+Gslider.getValue()+" B - "+Bslider.getValue() + " HexColor : "+hex);
 			}
 		});
 	}
