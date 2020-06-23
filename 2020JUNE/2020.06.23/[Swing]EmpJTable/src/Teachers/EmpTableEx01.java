@@ -4,11 +4,14 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
 
-public class TZipSearchEx01 extends JFrame {
+public class EmpTableEx01 extends JFrame {
 
 	private JPanel contentPane;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -17,7 +20,7 @@ public class TZipSearchEx01 extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TZipSearchEx01 frame = new TZipSearchEx01();
+					EmpTableEx01 frame = new EmpTableEx01();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -29,20 +32,21 @@ public class TZipSearchEx01 extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TZipSearchEx01() {
+	public EmpTableEx01() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 881, 504);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JComboBox comboBox = new JComboBox();
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 10, 843, 445);
+		contentPane.add(scrollPane);
 		
-		comboBox.setModel( new CustomComboBoxModel() );
-		
-		comboBox.setBounds(12, 10, 410, 21);
-		contentPane.add(comboBox);
+		table = new JTable();
+		table.setModel( new EmpTableModel3() );
+		scrollPane.setViewportView(table);
 	}
 
 }
