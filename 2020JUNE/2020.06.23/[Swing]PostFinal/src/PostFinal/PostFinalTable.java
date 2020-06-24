@@ -84,7 +84,7 @@ public class PostFinalTable extends JFrame {
 
 					table.setModel(new PostFinalModel(strDong));
 					
-					// 테이블 셀 렌더러 생성
+					// 테이블 셀 렌더러 생성(가운데 정렬을 위함)
 					DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
 					// 가운데 정렬로 지정
 					dtcr.setHorizontalAlignment(SwingConstants.CENTER);

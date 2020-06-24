@@ -1,4 +1,4 @@
-package PostFinal;
+package Main;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,14 +7,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class PostFinalDAO {
+public class ZipSearchDAO {
 	// DAO
 	// 1. connection 객체를 가져다 쓰기 위해 미리 만들어 두기. DB에 접속하는 객체를 전용으로 하나만 만들고, 모든 페이지에서 이 객체를 호출해서 사용하면 효율적이다.
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 	
-	public PostFinalDAO() {
+	public ZipSearchDAO() {
 		
 		String url = "jdbc:mysql://localhost:3306/project";
 		String user = "root";
@@ -32,8 +32,8 @@ public class PostFinalDAO {
 		}
 	}
 	// Service : 비지니스 로직
-	public ArrayList<PostFinalDTO> allEmp(String strDong) {
-		ArrayList<PostFinalDTO> datas = new ArrayList<PostFinalDTO>();
+	public ArrayList<ZipSearchDTO> allEmp(String strDong) {
+		ArrayList<ZipSearchDTO> datas = new ArrayList<ZipSearchDTO>();
 		try {
 			String sql = "select zipcode, sido, gugun, dong, ri, bunji from zipcode where dong like ?";
 			pstmt = conn.prepareStatement(sql);
@@ -48,7 +48,7 @@ public class PostFinalDAO {
 				String ri = rs.getString("ri");
 				String bunji = rs.getString("bunji");
 				
-				PostFinalDTO to = new PostFinalDTO();
+				ZipSearchDTO to = new ZipSearchDTO();
 				
 				to.setZipcode(zipcode);
 				to.setSido(sido);

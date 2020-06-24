@@ -1,4 +1,4 @@
-package PostFinal;
+package Main;
 
 import java.util.ArrayList;
 
@@ -9,16 +9,16 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 
-public class PostFinalModel extends AbstractTableModel {
+public class ZipSearchModel extends AbstractTableModel {
 
-	private ArrayList<PostFinalDTO> datas = new ArrayList<PostFinalDTO>();
+	private ArrayList<ZipSearchDTO> datas = new ArrayList<ZipSearchDTO>();
 
-	public PostFinalModel(String strDong) {
-		PostFinalDAO dao = new PostFinalDAO();
+	public ZipSearchModel(String strDong) {
+		ZipSearchDAO dao = new ZipSearchDAO();
 		datas = dao.allEmp(strDong);
 	}
 
-	private String[] columnNames = { "zipcode", "sido", "gugun", "dong", "ri", "bunji" };
+	private String[] columnNames = { "우편번호", "시도", "구군", "동", "리", "번지" };
 
 	@Override
 	public String getColumnName(int column) {
@@ -39,7 +39,7 @@ public class PostFinalModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		PostFinalDTO to = datas.get(rowIndex);
+		ZipSearchDTO to = datas.get(rowIndex);
 		String result = "";
 		
 		switch (columnIndex) {
@@ -62,7 +62,6 @@ public class PostFinalModel extends AbstractTableModel {
 			result = to.getBunji();
 			break;
 		}
-		
 		return result;
 	}
 

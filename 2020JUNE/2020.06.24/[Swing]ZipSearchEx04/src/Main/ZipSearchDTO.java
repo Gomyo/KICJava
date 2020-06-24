@@ -1,7 +1,8 @@
-package PostFinal;
+package Main;
 
 // 1차원 배열과 동등함
-public class ToFinal {
+
+public class ZipSearchDTO {
 	private String zipcode;
 	private String sido;
 	private String gugun;
