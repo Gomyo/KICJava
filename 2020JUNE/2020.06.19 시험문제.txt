@@ -1,33 +1,96 @@
-1. java lang
-	최고 조상 클래스가 무엇인지
+1. **java lang의 최고 조상 클래스는?**
+    - Object
+2. **String / StringBuffer 클래스의 차이**
+    - String : 불변성. 변하지 않는 문자열을 자주 읽어들이는 경우 String 사용한다.
+    예를 들어 다음의 두 코드를 실행한다면, 불병성을 가지는 String의 특성상 기존의 Hello로 값이 할당되어 있던 메모리 영역은 Garbage로 남아있다가 GC(Garbage Collection)에 의해 사라지게 된다. 새로운 String 인스턴스가 생성된 것이다.
 
-2. String / StringBuffer 클래스의 차이
+    ```java
+    String str = new String("Hello");
+    String str = str + " notion";
+    ```
 
-3. Wrapper의 의미와 종류
+    - StringBuffer : 가변성. 문자열의 추가/수정/삭제가 빈번한 경우 사용한다. append(), delete()등의 API를 이용하여 동일 객체 내에서 문자열을 변경하는 것이 가능하다.
 
-4. 3가 컬렉션 프레임워크의 장점
+3. **Wrapper의 의미와 종류**
 
-5. 멀티스레드 프로그램의 장단점
+    Wrapper Class : 8종류의 기본타입 데이터를 객체로 만들기 위한 클래스.
+    예를 들어, 메소드의 인수로 객체 타입만이 요구될 경우, 기본 타입의 데이터를 그대로 사용할 수는 없으니 기본 타입 데이터 ⇒ 객체로 변환한 수 작업을 수행해야 한다.
 
-6. 스레드 생명주기 life cycle 그림
+    래퍼 클래스 (기본 타입)
 
-7. 공유자원	- 해결 : lock, synchronized
+    - Byte (byte)
+    - Short (short)
+    - Integer (int)
+    - Long (long)
+    - Float (float)
+    - Double (double)
+    - Character (char)
+    - Boolean (boolean)
+4. **3가지 컬렉션Collection 프레임워크**
+    - List : 순서 O, 데이터중복 O
+    - Set : 순서 X, 데이터중복 X
+    - Map :  Key&Value 의 형태로 저장, Key는 중복되면 안되지만 Value는 중복 가능
+5. **멀티스레드 프로그램의 장단점**
+    - 장점 : CPU 사용률 향상, 작업의 분리로 응답성 향상, 자원의 공유를 통한 효율성 증대
+    - 단점 : 문맥 교환(Context Switching) 비용 발생, 제어의 어려움
+6. **스레드 생명주기 life cycle**
 
-8. file 입출력
-	byte 단위 / character 단위 입출력 클래스에 대해
-	
-	Reader /  Writer
-	FileReader / FileWriter
-	BufferedReader / BufferedWriter
+    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5f574acd-2395-4ec1-bfc0-fbb2dac697cc/_.jpeg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5f574acd-2395-4ec1-bfc0-fbb2dac697cc/_.jpeg)
 
-9. byte <-> char 바꿔주는 방법은 뭐냐?
+    1. 최초 스레드 객체를 생성하면 NEW 상태이다. 이 상태의 객체는 타입만 Thread일 뿐, 스레드로서 동작하지 않는다. start() 메서드를 호출하면 스레드의 상태는 Runnable로 변경된다. 이 상태에서 스레드 스케줄러에 의해 선택되면 동작할 수 있다. 만약 여러 개의 스레드가 Runnable 상태에 있다면 선택되기 위한 스레드 간 경합이 일어나, 특정 스레드의 정확한 동작 시점을 알 수는 없다.
+    2. JVM이 스레드의 run() 메서드를 호출하면 스레드가 동작한다. run() 메서드가 종료되면 스레드는 소멸(Terminate)된다. 스레드가 소멸된다는 것은 스레드의 스택 자체가 없어지는 것이므로 한번 소멸한 스레드는 더 이상 동작하지 않는다. 만약 이 스레드의 동작이 필요하다면 다시 스레드를 생성하고 start() 하는 수밖에 없다.
+    3. 동작 중인 스레드는 Sleep(), wait(), join() 메서드가 호출되거나 I/O에 의한 블로킹이 발생하는 경우 대기 풀(Waiting Poll)로 이동해서 대기 상태(Wating 또는 Timed_waiting)로 변경된다. 대기 상태에서 스레드의 동작은 일시 정지된다.
+    4. 대기 상태의 스레드는 sleep()이나 join()의 시간이 종료되거나, wait()에 대한 notify() 메서드가 호출되거나, interrupt()의 호출 혹은 I/O가  종료되는 경우 다시 Runnable 상태가 된다. 이후 다시 경합 과정을 거친다.
+    5. 동작 중인 스레드에서 yield() 메서드가 호출되면 스레드는 동작을 멈춘다. 하지만 3의 경우처럼 대기 상태로 이동하지는 않고 다시 Runnable 상태로 이동해서 경합하게 된다.
 
-	inputStreamReader / OutputStreamWriter
+7. **공유자원(동시성Concurrency 문제) 해결 : lock, synchronized**
 
-	Stream : 바이트 단위는 바이트 단위로 연결하고 캐릭터 단위는 캐릭터 단위로 연결하는 것이 원칙이다. 하지만 캐릭터는 결국 바이트 2개가 모여서 구성한 데이터이므로, 두 가지를 호환할 수 있는 통로가 있어야 한다. 
-	
-	InputStreamReader는 바이트 스트림에서 문자 스트림으로, 
-	OutputStreamWriter는 문자 스트림에서 바이트 스트림으로의 변환을 제공하는 입출력 스트림이다. 
-	바이트를 읽어서 지정된 문자 인코딩에 따라 문자로 변환하는데 사용한다.
+    CPU에서 작업을 처리하는 과정에 여러 요청이 동일한 자원(data)에 접근하고 수정하려 할 수 있다. 이 문제의 해결 방법
 
-10. sql문을 실행시킬 때 사용하는 클래스는? statement / preparestatement
+    - Lock : 다른 요청에 의해 수정될 가능성이 있는 데이터에 Lock을 거는 방식. 데이터의 무결성을 완벽히 지킬 수 있다. row level lock을 걸기 때문에 다른 요청에서 수정하는 것은 불가능하다.
+    단점은 lock으로 인하여 이후의 다른 요청은 대기상태로 빠진다. 기존의 lock의 transaction이 commit / rollback으로 끝나면 대기하고 있던 요청을 비로소 실행한다.
+
+    그리고 이 락을 걸기 위해 Synchronized 키워드를 사용한다. 
+    **함수에 synchronized를 걸면 그 함수가 포함된 해당 객체(this)를 Lock!**
+
+8. **file 입출력
+byte 단위 / character 단위 입출력 클래스에 대해**
+
+    byte
+
+    binary 데이터를 입출력하는 스트림 (이미지,동영상)
+    InputStream / OutputStream
+    FileInputStream / FileOutputStream
+    BufferedInputStream / BufferedOutputStream
+
+    char
+
+    텍스트 데이터를 입출력하는 스트림
+
+    Reader / Writer
+    FileReader / FileWriter
+    BufferedReader / BufferedWriter
+
+9. **byte <-> char 바꿔주는 방법은 뭐냐?**
+
+    inputStreamReader / OutputStreamWriter
+
+    바이트 단위는 바이트 단위로 연결하고 캐릭터 단위는 캐릭터 단위로 연결하는 것이 원칙이다. 하지만 캐릭터는 결국 바이트 2개가 모여서 구성한 데이터이므로, 두 가지를 호환할 수 있는 통로가 있어야 한다.
+
+    InputStreamReader는 바이트 스트림에서 문자 스트림으로,
+    OutputStreamWriter는 문자 스트림에서 바이트 스트림으로의 변환을 제공하는 입출력 스트림이다.
+    바이트를 읽어서 지정된 문자 인코딩에 따라 문자로 변환하는데 사용한다.
+
+10. **sql문을 실행시킬 때 사용하는 클래스는?** 
+
+    **Statement**
+
+    1. 단일로 사용될 때 빠른 속도를 지닌다
+    2. 쿼리에 인자를 부여할 수 없다
+    3. 매번 컴파일해야 한다
+
+    **PrepareStatement**
+
+    1. 쿼리에 인자를 부여할 수 있다.
+    2. 처음 프리컴파일 된 후 컴파일을 하지 않는다
+    3. 여러번 수행될 때 빠른 속도를 지닌다
