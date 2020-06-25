@@ -15,34 +15,47 @@ public class ZipSearchDialogUI extends JDialog {
 	private JTextField dongTF;
 	public JTable table;
 	public ArrayList<String> result;
+	private JButton btnSearchDialog;
+	private String zipcode;
+	private String address;
+	
 
-	public ArrayList<String> getResult() {
-		return result;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setResult(ArrayList<String> result) {
-		this.result = result;
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getZipcode() {
+		return zipcode;
+	}
+
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
 	}
 
 	public ZipSearchDialogUI() {
 
 		table = new JTable();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		setTitle("상세주소 검색");
-		setBounds(100, 100, 474, 628);
+		setBounds(100, 100, 813, 637);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
 			dongTF = new JTextField();
-			dongTF.setBounds(12, 21, 326, 21);
+			dongTF.setBounds(127, 21, 326, 21);
 			contentPanel.add(dongTF);
 			dongTF.setColumns(10);
 		}
 		{
-			JButton btnSearchDialog = new JButton("검색");
-			btnSearchDialog.setBounds(349, 20, 97, 23);
+			btnSearchDialog = new JButton("검색");
+			btnSearchDialog.setBounds(588, 20, 97, 23);
 			contentPanel.add(btnSearchDialog);
 			
 			btnSearchDialog.addMouseListener(new MouseAdapter() {
@@ -74,7 +87,7 @@ public class ZipSearchDialogUI extends JDialog {
 			});
 		}
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 80, 434, 466);
+		scrollPane.setBounds(12, 80, 773, 475);
 		contentPanel.add(scrollPane);
 		
 		scrollPane.setViewportView(table);
@@ -90,13 +103,48 @@ public class ZipSearchDialogUI extends JDialog {
 				okButton.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
+						
+						//내 코드
+						/*
 						// 매번 클릭할 때마다 ArrayList 초기화
 						ArrayList<String> result = new ArrayList<String>();
 						for (int i=0; i<6; i++) {
-							result.add(i,table.getValueAt(table.getSelectedRow(),i).toString());
+							result.add(table.getValueAt(table.getSelectedRow(),i).toString());
 						}
-						System.out.println(result);
-						setResult(result);
+						// setText를 위한 String 변수 생성
+						toMain = "";
+						for (String s : result) {
+							toMain += s +"\t";
+						}
+						*/
+						
+						// 선생님 코드
+						// table에서 선택된 데이터 가져오기
+						if (table.getSelectedRow() != -1) {
+//							System.out.println(table.getValueAt(table.getSelectedColumn(), table.getSelectedRow()));
+							ZipSearchDialogUI.this.setZipcode((String)table.getValueAt(table.getSelectedRow(),0));
+							String strAddress = String.format("%s %s %s %s %s", 
+									(String)table.getValueAt(table.getSelectedRow(),1),
+									(String)table.getValueAt(table.getSelectedRow(),2),
+									(String)table.getValueAt(table.getSelectedRow(),3),
+									(String)table.getValueAt(table.getSelectedRow(),4),
+									(String)table.getValueAt(table.getSelectedRow(),5)
+									);
+							ZipSearchDialogUI.this.setAddress(strAddress);
+						}
+						
+						// 여기서는 값을 저장만 하고 받는건 메인에서 하자
+						// 메인 테이블의 textField에 setText
+						// 왜 setText가 안되지?
+						/*
+						
+						zu.textField2.setText(toMain);
+						zu.getResult(toMain);
+						
+						JTextField setTextField = new JTextField();
+						setTextField.setText(toMain);
+						*/
+						ZipSearchDialogUI.this.dispose();
 					}
 				});
 			}

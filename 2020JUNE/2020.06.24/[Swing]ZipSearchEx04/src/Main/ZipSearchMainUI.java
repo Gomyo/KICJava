@@ -12,6 +12,8 @@ import javax.swing.border.TitledBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class ZipSearchMainUI extends JFrame {
 
@@ -19,7 +21,6 @@ public class ZipSearchMainUI extends JFrame {
 	private JTextField textField1;
 	private JTextField textField2;
 	private JTextField textField3;
-	private ArrayList<String> result;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -62,6 +63,7 @@ public class ZipSearchMainUI extends JFrame {
 		textField2.setColumns(10);
 		
 		textField3 = new JTextField();
+		textField3.setEditable(false);
 		textField3.setBounds(6, 80, 750, 21);
 		panel.add(textField3);
 		textField3.setColumns(10);
@@ -74,9 +76,18 @@ public class ZipSearchMainUI extends JFrame {
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				dialog.setModal(true);
 				dialog.setVisible(true);
+				
+				if (dialog.getZipcode() != null) {
+					textField1.setText(dialog.getZipcode());
+					textField2.setText(dialog.getAddress());
+				}
+				if (!textField2.getText().isEmpty()) {
+					textField3.setEditable(true);
+				} 
 			}
 		});
 		btnOpenSearchDialog.setBounds(248, 17, 97, 23);
 		panel.add(btnOpenSearchDialog);
+		
 	}
 }
