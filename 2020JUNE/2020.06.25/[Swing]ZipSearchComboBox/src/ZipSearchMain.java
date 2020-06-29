@@ -94,7 +94,7 @@ public class ZipSearchMain extends JFrame {
 				}
 			}
 		});
-		
+		// 마지막으로 동을 선택한다
 		DongCB.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -105,7 +105,12 @@ public class ZipSearchMain extends JFrame {
 							public void mouseClicked(MouseEvent e) {
 								ZipcodeDetailDialog dialog = new ZipcodeDetailDialog();
 								if (table.getSelectedRow() != -1) {
-									dialog.setZipcodeLabel((String)table.getValueAt(table.getSelectedRow(), 0));
+									dialog.setZipcodeLabel("우편번호 : " + (String)table.getValueAt(table.getSelectedRow(), 0));
+									dialog.setSidoLabel("시도 : " + (String)table.getValueAt(table.getSelectedRow(), 1));
+									dialog.setGugunLabel("구군 : " + (String)table.getValueAt(table.getSelectedRow(), 2));
+									dialog.setDongLabel("동 : " + (String)table.getValueAt(table.getSelectedRow(), 3));
+									dialog.setLiLabel("리 : " + (String)table.getValueAt(table.getSelectedRow(), 4));
+									dialog.setBunjiLabel("번지 : " + (String)table.getValueAt(table.getSelectedRow(), 5));
 								}
 								dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 								dialog.setModal(true);

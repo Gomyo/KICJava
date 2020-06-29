@@ -16,16 +16,36 @@ public class ZipcodeDetailDialog extends JDialog {
 	
 	private final JPanel contentPanel = new JPanel();
 	private JLabel zipcodeLabel;
-	private JTextField textField;
-
+	private JLabel sidoLabel;
+	private JLabel gugunLabel;
+	private JLabel dongLabel;
+	private JLabel liLabel;
+	private JLabel bunjiLabel;
 	
-	public JLabel getZipcodeLabel() {
-		return zipcodeLabel;
-	}
-
 	public void setZipcodeLabel(String txt) {
 		zipcodeLabel.setText(txt);
 	}
+
+	public void setSidoLabel(String txt) {
+		sidoLabel.setText(txt);
+	}
+	
+	public void setGugunLabel(String txt) {
+		gugunLabel.setText(txt);
+	}
+
+	public void setDongLabel(String txt) {
+		dongLabel.setText(txt);
+	}
+
+	public void setLiLabel(String txt) {
+		liLabel.setText(txt);
+	}
+
+	public void setBunjiLabel(String txt) {
+		bunjiLabel.setText(txt);
+	}
+
 
 	public static void main(String[] args) {
 		try {
@@ -37,6 +57,7 @@ public class ZipcodeDetailDialog extends JDialog {
 		}
 	}
 
+	
 	public ZipcodeDetailDialog() {
 		setBounds(100, 100, 307, 530);
 		getContentPane().setLayout(new BorderLayout());
@@ -45,18 +66,28 @@ public class ZipcodeDetailDialog extends JDialog {
 		contentPanel.setLayout(null);
 		
 		zipcodeLabel = new JLabel("New label");
-		zipcodeLabel.setBounds(12, 29, 222, 30);
+		zipcodeLabel.setBounds(12, 10, 222, 30);
 		contentPanel.add(zipcodeLabel);
 		
-		ZipSearchMain zm = new ZipSearchMain();
+		sidoLabel = new JLabel("New label");
+		sidoLabel.setBounds(12, 50, 222, 30);
+		contentPanel.add(sidoLabel);
 		
-		zipcodeLabel.setText("우편번호 : "+getZipcodeLabel());
-		{
-			textField = new JTextField();
-			textField.setBounds(12, 78, 152, 30);
-			contentPanel.add(textField);
-			textField.setColumns(10);
-		}
+		gugunLabel = new JLabel("New label");
+		gugunLabel.setBounds(12, 90, 222, 30);
+		contentPanel.add(gugunLabel);
+		
+		dongLabel = new JLabel("New label");
+		dongLabel.setBounds(12, 130, 222, 30);
+		contentPanel.add(dongLabel);
+		
+		liLabel = new JLabel("New label");
+		liLabel.setBounds(12, 170, 222, 30);
+		contentPanel.add(liLabel);
+		
+		bunjiLabel = new JLabel("New label");
+		bunjiLabel.setBounds(12, 210, 222, 30);
+		contentPanel.add(bunjiLabel);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -69,5 +100,4 @@ public class ZipcodeDetailDialog extends JDialog {
 		}
 		
 	}
-
 }
