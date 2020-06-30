@@ -35,9 +35,9 @@ Protocol
 https://maps.googleapis.com/maps/api/geocode/json?
 address=1600+Amphitheatre+Parkway,+Mountain+View,+CA
 &
-key=AIzaSyBCEEd5naSLLZf1nDhpToFU_9MTyt1BdsY
+key=?
 [xml도 가능]
-https://maps.googleapis.com/maps/api/geocode/xml?address=강남역&key=AIzaSyBCEEd5naSLLZf1nDhpToFU_9MTyt1BdsY
+https://maps.googleapis.com/maps/api/geocode/xml?address=강남역&key=?
 
 1. String - 메소드
 2. 각각 라이브러리 사용 (json)
