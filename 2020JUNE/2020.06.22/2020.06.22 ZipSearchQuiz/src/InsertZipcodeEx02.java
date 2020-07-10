@@ -27,7 +27,7 @@ public class InsertZipcodeEx02 {
          String sql = "insert into zipcode values (?, ?, ?, ?, ?, ?, ?)";
          pstmt = conn.prepareStatement(sql);
          
-         br = new BufferedReader( new FileReader( "c:/java/zipcode_seoul_utf8_type20.txt" ) );         
+         br = new BufferedReader( new FileReader( "c:/java/zipcode_seoul_utf8_type2.csv" ) );         
          
          String address = null;
          int count = 0;

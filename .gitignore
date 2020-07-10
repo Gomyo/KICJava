@@ -8,3 +8,12 @@
 *.project
 *.dat
 *.csv
+*./Servers
+*.jar
+2020JULY/Servers/Tomcat v9.0 Server at localhost-config/catalina.properties
+2020JULY/Servers/Tomcat v9.0 Server at localhost-config/context.xml
+2020JULY/Servers/Tomcat v9.0 Server at localhost-config/server.xml
+2020JULY/Servers/Tomcat v9.0 Server at localhost-config/tomcat-users.xml
+2020JULY/Servers/Tomcat v9.0 Server at localhost-config/web.xml
+2020JULY/Servers/Tomcat v9.0 Server at localhost-config/catalina.policy
+2020JULY/JDBCEx01/WebContent/META-INF/MANIFEST.MF
