@@ -3,10 +3,9 @@
 <%@ page import="javax.naming.Context" %>
 <%@ page import="javax.naming.InitialContext" %>
 <%@ page import="javax.naming.NamingException" %>
-
+<%@page import="java.sql.PreparedStatement"%>
 <%@ page import="javax.sql.DataSource" %>
 <%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.Statement" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.sql.ResultSet" %>
 
@@ -21,9 +20,10 @@
 	String content=  "";
 	String mail1= "";
 	String mail2= "";
-	
+	String emot = "";
+	String emots = "";
 	Connection conn = null;
-	Statement stmt = null;
+	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
 	try {
@@ -33,10 +33,11 @@
 		conn = dataSource.getConnection();
 		
 		
-		String sql = "select subject,writer,mail,content from board where seq=" + seq;
-		stmt = conn.createStatement();
+		String sql = "select subject,emot,writer,mail,content from emoji_board where seq=?";
+		pstmt = conn.prepareStatement(sql);	
+		pstmt.setString(1, seq);
 		
-		rs = stmt.executeQuery(sql);
+		rs = pstmt.executeQuery();
 		
 		if (rs.next()) {
 			subject = rs.getString("subject");
@@ -46,17 +47,37 @@
 				mail1 = mail.substring(0, gIdx);
 				mail2 = mail.substring(gIdx+1);	
 			}
-			
+			emot = rs.getString("emot");
+			int emotInt = Integer.parseInt(emot);
 			writer = rs.getString("writer");
 			content = rs.getString("content").replaceAll("\n","<br>");
+			int emotsCnt = 1;
+			for (int i=1; i<=3; i++) {
+				emots += "<tr>";
+				for (int j=1; j<=15; j++) {
+					if (emotInt == emotsCnt) {
+						if (emotsCnt <=9) {
+							emots += "<td><img src='../../images/emoticon/emot0"+Integer.toString(emotsCnt)+".png' width='25' /><br /> <input type='radio' name='emot' value='emot" +Integer.toString(emotsCnt)+"' class='input_radio' checked='checked'/></td>";
+						} else {
+							emots += "<td><img src='../../images/emoticon/emot"+Integer.toString(emotsCnt)+".png' width='25' /><br /> <input type='radio' name='emot' value='emot" +Integer.toString(emotsCnt)+"' class='input_radio' checked='checked'/></td>";
+						}
+					} else if (emotsCnt <=9) {
+						emots += "<td><img src='../../images/emoticon/emot0"+Integer.toString(emotsCnt)+".png' width='25' /><br /> <input type='radio' name='emot' value='emot" +Integer.toString(emotsCnt)+"' class='input_radio' /></td>";
+					} else {
+						emots += "<td><img src='../../images/emoticon/emot"+Integer.toString(emotsCnt)+".png' width='25' /><br /> <input type='radio' name='emot' value='emot" +Integer.toString(emotsCnt)+"' class='input_radio' /></td>";
+					}
+					emotsCnt++;
+				}
+				emots += "</tr>";
+			}
 		}
 	} catch (NamingException e) {
-		System.out.println("[에러] : "+e.getMessage());
+		System.out.println("[modify1에러] : "+e.getMessage());
 	} catch (SQLException e) { 
-		System.out.println("[에러] : "+e.getMessage());
+		System.out.println("[modify1에러] : "+e.getMessage());
 	} finally {
 		if (conn != null) conn.close();
-		if (stmt != null) stmt.close();
+		if (pstmt != null) pstmt.close();
 		if (rs != null) rs.close();
 	}
 %>
@@ -118,6 +139,14 @@
 				<tr>
 					<th>이메일</th>
 					<td colspan="3"><input type="text" name="mail1" value="<%= mail1 %>" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="<%= mail2 %>" class="board_view_input_mail"/></td>
+				</tr>
+				<tr>
+					<th>이모티콘</th>
+					<td colspan="3" align="center">
+						<table>
+						<%= emots %>
+						</table>
+					</td>
 				</tr>
 				</table>
 			</div>

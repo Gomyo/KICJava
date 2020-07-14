@@ -3,7 +3,7 @@
 <%@ page import="javax.naming.Context" %>
 <%@ page import="javax.naming.InitialContext" %>
 <%@ page import="javax.naming.NamingException" %>
-
+<%@page import="java.sql.PreparedStatement"%>
 <%@ page import="javax.sql.DataSource" %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.Statement" %>
@@ -13,11 +13,19 @@
 	request.setCharacterEncoding("UTF-8");
 	String seq = request.getParameter("seq");
 	String password = request.getParameter("password");
+	String subject = request.getParameter("subject");
+	String mail = "";
+	if (!request.getParameter("mail1").equals("") && !request.getParameter("mail2").equals("")){
+		mail = request.getParameter("mail1") + "@" + request.getParameter("mail2");	
+	}
+	String content = request.getParameter("content");
+	String emot = request.getParameter("emot");
+	emot = emot.substring(4);
 	
 	Connection conn = null;
-	Statement stmt = null;
+	PreparedStatement pstmt = null;
 	
-	// 데이터 삭제 유무를 위한 flag 변수
+	// 데이터 수정 유무를 위한 flag 변수
 	int flag = 2;
 	
 	try {
@@ -25,10 +33,19 @@
 		Context envCtx = (Context)initCtx.lookup("java:comp/env");
 		DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb1");
 		conn = dataSource.getConnection();
-		String sql = String.format("delete from board where seq=%s and password='%s'", seq, password);
-		stmt = conn.createStatement();
 		
-		int result = stmt.executeUpdate(sql);
+		String sql = "update emoji_board set subject=?,mail=?, content=?, emot=? where seq=? and password=?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, subject);
+		pstmt.setString(2, mail);
+		pstmt.setString(3, content);
+		System.out.println(emot);
+		pstmt.setString(4, emot);
+		pstmt.setString(5, seq);
+		pstmt.setString(6, password);
+		
+		int result = pstmt.executeUpdate();
+		
 		if (result == 0) {
 			// 비밀번호 잘못 기입
 			flag = 1;
@@ -37,24 +54,23 @@
 			flag = 0;
 		}
 	} catch (NamingException e) {
-		System.out.println("[에러] : "+e.getMessage());
+		System.out.println("[modifyok에러] : "+e.getMessage());
 	} catch (SQLException e) { 
-		System.out.println("[에러] : "+e.getMessage());
+		System.out.println("[modifyok에러] : "+e.getMessage());
 	} finally {
 		if (conn != null) conn.close();
-		if (stmt != null) stmt.close();
+		if (pstmt != null) pstmt.close();
 	}
 	out.println("<script type='text/javascript'>");
 	if (flag == 0) {
-		out.println("alert('글 삭제에 성공했습니다.');");
-		out.println("location.href='./board_list1.jsp';");	
+		out.println("alert('글 수정에 성공했습니다.');");
+		out.println("location.href='./board_view1.jsp?seq="+seq+"';");	
 	} else if (flag == 1){
 		out.println("alert('비밀번호가 잘못되었습니다.');");
 		out.println("history.back();");
 	} else {
-		out.println("alert('글삭제에 실패했습니다.');");
+		out.println("alert('글 수정에 실패했습니다.');");
 		out.println("history.back();");
 	}
-	
 	out.println("</script>");
 %>

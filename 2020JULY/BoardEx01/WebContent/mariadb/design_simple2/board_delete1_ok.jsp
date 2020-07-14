@@ -3,7 +3,7 @@
 <%@ page import="javax.naming.Context" %>
 <%@ page import="javax.naming.InitialContext" %>
 <%@ page import="javax.naming.NamingException" %>
-
+<%@page import="java.sql.PreparedStatement"%>
 <%@ page import="javax.sql.DataSource" %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.Statement" %>
@@ -15,9 +15,8 @@
 	String password = request.getParameter("password");
 	
 	Connection conn = null;
-	Statement stmt = null;
+	PreparedStatement pstmt = null;
 	
-	// 데이터 삭제 유무를 위한 flag 변수
 	int flag = 2;
 	
 	try {
@@ -25,10 +24,13 @@
 		Context envCtx = (Context)initCtx.lookup("java:comp/env");
 		DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb1");
 		conn = dataSource.getConnection();
-		String sql = String.format("delete from board where seq=%s and password='%s'", seq, password);
-		stmt = conn.createStatement();
+		String sql = "delete from emoji_board where seq=? and password=?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, seq);
+		pstmt.setString(2, password);
 		
-		int result = stmt.executeUpdate(sql);
+		int result = pstmt.executeUpdate();
+		
 		if (result == 0) {
 			// 비밀번호 잘못 기입
 			flag = 1;
@@ -37,12 +39,12 @@
 			flag = 0;
 		}
 	} catch (NamingException e) {
-		System.out.println("[에러] : "+e.getMessage());
+		System.out.println("[delok에러] : "+e.getMessage());
 	} catch (SQLException e) { 
-		System.out.println("[에러] : "+e.getMessage());
+		System.out.println("[delok에러] : "+e.getMessage());
 	} finally {
 		if (conn != null) conn.close();
-		if (stmt != null) stmt.close();
+		if (pstmt != null) pstmt.close();
 	}
 	out.println("<script type='text/javascript'>");
 	if (flag == 0) {

@@ -3,31 +3,35 @@
 <%@ page import="javax.naming.Context" %>
 <%@ page import="javax.naming.InitialContext" %>
 <%@ page import="javax.naming.NamingException" %>
-
+<%@page import="java.sql.PreparedStatement"%>
 <%@ page import="javax.sql.DataSource" %>
 <%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.Statement" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.sql.ResultSet" %>
-
 <%
 	Connection conn = null;
-	Statement stmt = null;
+	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	StringBuffer strHtml = new StringBuffer();
+	
+	int totalRecord = 0;
 	
 	try {
 		Context initCtx = new InitialContext();
 		Context envCtx = (Context)initCtx.lookup("java:comp/env");
 		DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb1");
 		conn = dataSource.getConnection();
-		// wdate 포맷을 변경할 때 다시 wdate로 컬럼 이름을 바꿔주는 것을 잊지 않게
-		// DATEDIFF를 사용해 new 변수 계산
-		// DB에서 계산해 버리는게 코드가 깔끔해 지는 듯. 나중에 변경하기도 편하고.
-		String sql = "select seq, subject, writer, date_format(wdate,'%Y-%m-%d') wdate, hit, datediff(now(), wdate) wgap from board order by seq desc";
-		stmt = conn.createStatement();
 		
-		rs = stmt.executeQuery(sql);
+		String sql = "select seq, subject, writer, date_format(wdate,'%Y-%m-%d') wdate, emot, hit, datediff(now(), wdate) wgap from emoji_board order by seq desc";
+		// ResultSet 옵션으로 커서의 진행 방향을 조절한다. 이걸 해야 이후의 rs 명령이 가능.
+		pstmt = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);		
+		rs = pstmt.executeQuery();
+		// 맨 밑에 가서
+		rs.last();
+		// 커서를 찍는다.
+		totalRecord = rs.getRow();
+		// 그 뒤, 다시 돌아온다.
+		rs.beforeFirst();
 		
 		while (rs.next()) {
 			String seq = rs.getString("seq");
@@ -35,14 +39,14 @@
 			String writer = rs.getString("writer");
 			String wdate = rs.getString("wdate");
 			String hit = rs.getString("hit");
+			String emot = rs.getString("emot");
 			int wgap = rs.getInt("wgap");
 			
 			strHtml.append("<tr>");
 			strHtml.append("<td>&nbsp;</td>");
 			strHtml.append("<td>"+ seq + "</td>");
-			// PK를 가져오기 위해 seq를 append
-			
 			strHtml.append("<td class='left'>");
+			
 			strHtml.append("	<a href='board_view1.jsp?seq="+ seq +"'>"+ subject + "</a>");
 			if (wgap == 0) {
 				strHtml.append("	&nbsp;<img src='../../images/icon_hot.gif' alt='HOT'>");	
@@ -53,6 +57,7 @@
 			strHtml.append("<td>"+ hit + "</td>");
 			strHtml.append("<td>&nbsp;</td>");
 			strHtml.append("</tr>");
+			
 		}
 	} catch (NamingException e) {
 		System.out.println("[에러] : "+e.getMessage());
@@ -60,7 +65,7 @@
 		System.out.println("[에러] : "+e.getMessage());
 	} finally {
 		if (conn != null) conn.close();
-		if (stmt != null) stmt.close();
+		if (pstmt != null) pstmt.close();
 		if (rs != null) rs.close();
 	}
 %>

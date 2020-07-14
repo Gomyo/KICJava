@@ -3,10 +3,9 @@
 <%@ page import="javax.naming.Context" %>
 <%@ page import="javax.naming.InitialContext" %>
 <%@ page import="javax.naming.NamingException" %>
-
+<%@page import="java.sql.PreparedStatement"%>
 <%@ page import="javax.sql.DataSource" %>
 <%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.Statement" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.sql.ResultSet" %>
 
@@ -22,9 +21,10 @@
 	String wip = "";
 	String wdate= "";
 	String content=  "";
+	String emot = "";
 	
 	Connection conn = null;
-	Statement stmt = null;
+	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
 	try {
@@ -33,38 +33,34 @@
 		DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb1");
 		conn = dataSource.getConnection();
 		
-		// 조회수 증가를 위해  update sql문 생성
-		String sql = "update board set hit=hit+1 where seq="+seq;
+		String sql = "update emoji_board set hit=hit+1 where seq=?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, seq);
+		pstmt.executeUpdate();
 		
-		// 데이터베이스로 SQL 문을 보내기 위한 SQLServerStatement 개체 생성.
-		stmt = conn.createStatement();
+		sql = "select subject, writer, mail, wip, wdate, emot, hit, content from emoji_board where seq=?";
+		pstmt = conn.prepareStatement(sql);
 		
-		// 쿼리 업데이트
-		stmt.executeUpdate(sql);
+		pstmt.setString(1, seq);
+		rs = pstmt.executeQuery();
 		
-		sql = "select subject,writer,mail,wip,wdate,hit,content from board where seq=" + seq;
-		stmt = conn.createStatement();
-		// 쿼리 실행
-		rs = stmt.executeQuery(sql);
-		
-		// ResultSet(엑셀 형태로 출력)되는 것에서 최초의 커서는 항상 데이터의 한 칸 위(앞)에 있음. 따라서 rs.next()를 쓴다. JSP 391p 참고
 		if (rs.next()) {
 			subject = rs.getString("subject");
 			mail = rs.getString("mail");
 			writer = rs.getString("writer");
 			wip = rs.getString("wip");
 			wdate = rs.getString("wdate");
+			emot = rs.getString("emot");
 			hit = rs.getString("hit");
-			// br tag로 replaceAll
 			content = rs.getString("content").replaceAll("\n","<br>");
 		}
 	} catch (NamingException e) {
-		System.out.println("[에러] : "+e.getMessage());
+		System.out.println("[view에러] : "+e.getMessage());
 	} catch (SQLException e) { 
-		System.out.println("[에러] : "+e.getMessage());
+		System.out.println("[view에러] : "+e.getMessage());
 	} finally {
 		if (conn != null) conn.close();
-		if (stmt != null) stmt.close();
+		if (pstmt != null) pstmt.close();
 		if (rs != null) rs.close();
 	}
 %>
@@ -91,7 +87,7 @@
 			<table>
 			<tr>
 				<th width="10%">제목</th>
-				<td width="60%"><%= subject %></td>
+				<td width="60%"><img src="../../images/emoticon/emot<%=emot %>.png" width="25" /><%= subject %></td>
 				<th width="10%">등록일</th>
 				<td width="20%"><%= wdate %></td>
 			</tr>

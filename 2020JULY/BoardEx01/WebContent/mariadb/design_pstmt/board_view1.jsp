@@ -5,67 +5,63 @@
 <%@ page import="javax.naming.NamingException" %>
 
 <%@ page import="javax.sql.DataSource" %>
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.Statement" %>
-<%@ page import="java.sql.SQLException" %>
-<%@ page import="java.sql.ResultSet" %>
 
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.SQLException" %>
 <%
-	request.setCharacterEncoding("UTF-8");
-	
-	String seq = request.getParameter("seq");
+	request.setCharacterEncoding( "utf-8" );
+
+	String seq = request.getParameter( "seq" );
 	
 	String subject = "";
 	String writer = "";
-	String hit = "";
 	String mail = "";
 	String wip = "";
-	String wdate= "";
-	String content=  "";
+	String wdate = "";
+	String hit = "";
+	String content = "";
 	
 	Connection conn = null;
-	Statement stmt = null;
+	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
 	try {
 		Context initCtx = new InitialContext();
-		Context envCtx = (Context)initCtx.lookup("java:comp/env");
-		DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb1");
+		Context envCtx = (Context)initCtx.lookup( "java:comp/env" );
+		DataSource dataSource = (DataSource)envCtx.lookup( "jdbc/mariadb1" );
+		
 		conn = dataSource.getConnection();
 		
-		// 조회수 증가를 위해  update sql문 생성
-		String sql = "update board set hit=hit+1 where seq="+seq;
+		String sql = "update board1 set hit=hit+1 where seq=?";
+		pstmt = conn.prepareStatement( sql );
+		pstmt.setString( 1, seq );
+		pstmt.executeUpdate();
 		
-		// 데이터베이스로 SQL 문을 보내기 위한 SQLServerStatement 개체 생성.
-		stmt = conn.createStatement();
+		sql = "select subject, writer, mail, wip, wdate, hit, content from board1 where seq=?";
+		pstmt = conn.prepareStatement( sql );
+		pstmt.setString( 1, seq );
 		
-		// 쿼리 업데이트
-		stmt.executeUpdate(sql);
+		rs = pstmt.executeQuery();
 		
-		sql = "select subject,writer,mail,wip,wdate,hit,content from board where seq=" + seq;
-		stmt = conn.createStatement();
-		// 쿼리 실행
-		rs = stmt.executeQuery(sql);
-		
-		// ResultSet(엑셀 형태로 출력)되는 것에서 최초의 커서는 항상 데이터의 한 칸 위(앞)에 있음. 따라서 rs.next()를 쓴다. JSP 391p 참고
-		if (rs.next()) {
-			subject = rs.getString("subject");
-			mail = rs.getString("mail");
-			writer = rs.getString("writer");
-			wip = rs.getString("wip");
-			wdate = rs.getString("wdate");
-			hit = rs.getString("hit");
-			// br tag로 replaceAll
-			content = rs.getString("content").replaceAll("\n","<br>");
+		if( rs.next() ) {
+			subject = rs.getString( "subject" );
+			writer = rs.getString( "writer" );
+			mail = rs.getString( "mail" );
+			wip = rs.getString( "wip" );
+			wdate = rs.getString( "wdate" );
+			hit = rs.getString( "hit" );
+			content = rs.getString( "content" ).replaceAll( "\n", "<br />" );
 		}
-	} catch (NamingException e) {
-		System.out.println("[에러] : "+e.getMessage());
-	} catch (SQLException e) { 
-		System.out.println("[에러] : "+e.getMessage());
+	} catch( NamingException e ) {
+		System.out.println( "[에러] : " + e.getMessage() );
+	} catch( SQLException e ) {
+		System.out.println( "[에러] : " + e.getMessage() );
 	} finally {
-		if (conn != null) conn.close();
-		if (stmt != null) stmt.close();
-		if (rs != null) rs.close();
+		if( rs != null ) rs.close();
+		if( pstmt != null ) pstmt.close();
+		if( conn != null ) conn.close();
 	}
 %>
 <!DOCTYPE html>
@@ -91,18 +87,18 @@
 			<table>
 			<tr>
 				<th width="10%">제목</th>
-				<td width="60%"><%= subject %></td>
+				<td width="60%"><%=subject %></td>
 				<th width="10%">등록일</th>
-				<td width="20%"><%= wdate %></td>
+				<td width="20%"><%=wdate %></td>
 			</tr>
 			<tr>
 				<th>글쓴이</th>
-				<td><%= writer %>(<%= mail %>)(<%= wip %>)</td>
+				<td><%=writer %>(<%=mail %>)(<%=wip %>)</td>
 				<th>조회</th>
-				<td><%= hit %></td>
+				<td><%=hit %></td>
 			</tr>
 			<tr>
-				<td colspan="4" height="200" valign="top" style="padding: 20px; line-height: 160%"><%= content %></td>
+				<td colspan="4" height="200" valign="top" style="padding: 20px; line-height: 160%"><%=content %></td>
 			</tr>
 			</table>
 		</div>

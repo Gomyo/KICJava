@@ -3,10 +3,9 @@
 <%@ page import="javax.naming.Context" %>
 <%@ page import="javax.naming.InitialContext" %>
 <%@ page import="javax.naming.NamingException" %>
-
+<%@page import="java.sql.PreparedStatement"%>
 <%@ page import="javax.sql.DataSource" %>
 <%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.Statement" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.sql.ResultSet" %>
 
@@ -19,7 +18,7 @@
 	String writer = "";
 	
 	Connection conn = null;
-	Statement stmt = null;
+	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
 	try {
@@ -28,22 +27,23 @@
 		DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb1");
 		conn = dataSource.getConnection();
 		
-		String sql = "select subject,writer from board where seq=" + seq;
-		stmt = conn.createStatement();
+		String sql = "select subject,writer from emoji_board where seq=?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, seq);
 		
-		rs = stmt.executeQuery(sql);
+		rs = pstmt.executeQuery();
 		
 		if (rs.next()) {
 			subject = rs.getString("subject");
 			writer = rs.getString("writer");
 		}
 	} catch (NamingException e) {
-		System.out.println("[에러] : "+e.getMessage());
+		System.out.println("[del에러] : "+e.getMessage());
 	} catch (SQLException e) { 
-		System.out.println("[에러] : "+e.getMessage());
+		System.out.println("[del에러] : "+e.getMessage());
 	} finally {
 		if (conn != null) conn.close();
-		if (stmt != null) stmt.close();
+		if (pstmt != null) pstmt.close();
 		if (rs != null) rs.close();
 	}
 %>

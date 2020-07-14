@@ -5,46 +5,48 @@
 <%@ page import="javax.naming.NamingException" %>
 
 <%@ page import="javax.sql.DataSource" %>
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.Statement" %>
-<%@ page import="java.sql.SQLException" %>
-<%@ page import="java.sql.ResultSet" %>
 
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.SQLException" %>
 <%
-	request.setCharacterEncoding("UTF-8");
-	
-	String seq = request.getParameter("seq");
+	request.setCharacterEncoding( "utf-8" );
+
+	String seq = request.getParameter( "seq" );
 	
 	String subject = "";
 	String writer = "";
 	
 	Connection conn = null;
-	Statement stmt = null;
+	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
 	try {
 		Context initCtx = new InitialContext();
-		Context envCtx = (Context)initCtx.lookup("java:comp/env");
-		DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb1");
+		Context envCtx = (Context)initCtx.lookup( "java:comp/env" );
+		DataSource dataSource = (DataSource)envCtx.lookup( "jdbc/mariadb1" );
+		
 		conn = dataSource.getConnection();
 		
-		String sql = "select subject,writer from board where seq=" + seq;
-		stmt = conn.createStatement();
+		String sql = "select subject, writer from board1 where seq=?";
+		pstmt = conn.prepareStatement( sql );
+		pstmt.setString( 1, seq );
 		
-		rs = stmt.executeQuery(sql);
+		rs = pstmt.executeQuery();
 		
-		if (rs.next()) {
-			subject = rs.getString("subject");
-			writer = rs.getString("writer");
+		if( rs.next() ) {
+			subject = rs.getString( "subject" );
+			writer = rs.getString( "writer" );
 		}
-	} catch (NamingException e) {
-		System.out.println("[에러] : "+e.getMessage());
-	} catch (SQLException e) { 
-		System.out.println("[에러] : "+e.getMessage());
+	} catch( NamingException e ) {
+		System.out.println( "[에러] : " + e.getMessage() );
+	} catch( SQLException e ) {
+		System.out.println( "[에러] : " + e.getMessage() );
 	} finally {
-		if (conn != null) conn.close();
-		if (stmt != null) stmt.close();
-		if (rs != null) rs.close();
+		if( rs != null ) rs.close();
+		if( pstmt != null ) pstmt.close();
+		if( conn != null ) conn.close();
 	}
 %>
 <!DOCTYPE html>
@@ -58,13 +60,13 @@
 <script type="text/javascript">
 	window.onload = function() {
 		document.getElementById('dbtn').onclick = function() {
-			if (document.dfrm.password.value.trim() == '') {
-				alert('비밀번호를 입력해야 합니다.');
-				return false;	
+			if( document.dfrm.password.value.trim() == '' ) {
+				alert( '비밀번호를 입력하셔야 합니다.' );
+				return false;
 			}
 			document.dfrm.submit();
 		};
-	}
+	};
 </script>
 </head>
 
@@ -76,19 +78,18 @@
 </div>
 <div class="con_txt">
 	<form action="./board_delete1_ok.jsp" method="post" name="dfrm">
-		<!-- seq 넘기기. 폼 안에 있는것만 넘어갈 수 있기 때문에 hidden으로 해서 값을 넘겨준다. -->
-		<input type="hidden" name="seq" value="<%= seq %>" />
-		<div class="contents_sub">
+		<input type="hidden" name="seq" value="<%=seq %>" /> 
+		<div class="contents_sub">	
 			<!--게시판-->
 			<div class="board_write">
 				<table>
 				<tr>
 					<th class="top">글쓴이</th>
-					<td class="top" colspan="3"><input type="text" name="writer" value="<%= writer %>" class="board_view_input_mail" maxlength="5" readonly/></td>
+					<td class="top" colspan="3"><input type="text" name="writer" value="<%=writer %>" class="board_view_input_mail" maxlength="5" readonly/></td>
 				</tr>
 				<tr>
 					<th>제목</th>
-					<td colspan="3"><input type="text" name="subject" value="<%= subject %>" class="board_view_input" readonly/></td>
+					<td colspan="3"><input type="text" name="subject" value="<%=subject %>" class="board_view_input" readonly/></td>
 				</tr>
 				<tr>
 					<th>비밀번호</th>
@@ -100,13 +101,13 @@
 			<div class="btn_area">
 				<div class="align_left">
 					<input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
-					<input type="button" value="보기" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_view1.jsp'" />
+					<input type="button" value="보기" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_view1.jsp?seq=<%=seq %>'" />
 				</div>
 				<div class="align_right">
 					<input type="button" id="dbtn" value="삭제" class="btn_write btn_txt01" style="cursor: pointer;" />
 				</div>
 			</div>
-			<!--게시판-->
+			<!--//게시판-->
 		</div>
 	</form>
 </div>
