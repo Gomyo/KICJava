@@ -7,39 +7,25 @@
 <%@ page import="javax.sql.DataSource" %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.SQLException" %>
-<%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
-<%@ page import="com.oreilly.servlet.MultipartRequest" %>
-<%@ page import="java.io.File" %>
 
 <%
-	// 파일 업로드를 위한 코드
-	String uploadPath = "C:/Coding/kicjava/2020JULY/BoardEx01/WebContent/upload";
-	int maxFileSize = 1024 * 1024 * 5;
-	String encType = "utf-8";
+	// 인코딩
+	request.setCharacterEncoding("UTF-8");
+	// 필요한 값 모두 받아오기
+	String writer = request.getParameter("writer");
+	String subject = request.getParameter("subject");
+	String password = request.getParameter("password");
+	String content = request.getParameter("content");
+	String emot = request.getParameter("emot");
+	emot = emot.substring(4);
+	/* System.out.println(emot); */
 	
-	MultipartRequest multi
-	= new MultipartRequest(
-			request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy());
-	// 인코딩 필요 없어지니 삭제하고 request 싹다 multi로 변경 (ip 제외)
-	String writer = multi.getParameter("writer");
-	String subject = multi.getParameter("subject");
-	String password = multi.getParameter("password");
-	String content = multi.getParameter("content");
-	
+	// 메일은 받지 않는 경우의 예외 처리를 해 줘야 함
 	String mail = "";
-	if (!multi.getParameter("mail1").equals("") && ! multi.getParameter("mail2").equals("")){
-		mail = multi.getParameter("mail1") + "@" + multi.getParameter("mail2");	
+	if (!request.getParameter("mail1").equals("") && !request.getParameter("mail2").equals("")){
+		mail = request.getParameter("mail1") + "@" + request.getParameter("mail2");	
 	}
 	String wip = request.getRemoteAddr();
-	
-	String filename = multi.getFilesystemName("upload");
-	
-	long filesize = 0;
-	File file = multi.getFile("upload");
-	// 파일 업로드 된 것이 있을 때 길이 리턴. if처리를 안하면 NPE
-	if (file != null) {
-		filesize = file.length();
-	}
 	
 	Connection conn = null;
 	PreparedStatement pstmt = null;
@@ -51,16 +37,15 @@
 		DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb1");
 		conn = dataSource.getConnection();
 		
-		String sql = "insert into pds_board values(0,?,?,?,?,?,?,?,0,?,now())";
+		String sql = "insert into emoji_board values(0,?,?,?,?,?,?,0,?,now())";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, subject);		
 		pstmt.setString(2, writer);		
 		pstmt.setString(3, mail);		
 		pstmt.setString(4, password);		
 		pstmt.setString(5, content);
-		pstmt.setString(6, filename);
-		pstmt.setLong(7, filesize);
-		pstmt.setString(8, wip);
+		pstmt.setString(6, emot);
+		pstmt.setString(7, wip);	
 		
 		int result = pstmt.executeUpdate();
 		

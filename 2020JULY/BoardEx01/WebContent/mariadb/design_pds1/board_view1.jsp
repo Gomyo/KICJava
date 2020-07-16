@@ -11,7 +11,7 @@
 
 <%
 	request.setCharacterEncoding("UTF-8");
-	
+	String cpage = request.getParameter("cpage");
 	String seq = request.getParameter("seq");
 	
 	String subject = "";
@@ -21,8 +21,7 @@
 	String wip = "";
 	String wdate= "";
 	String content=  "";
-	String filename = "";
-	Long filesize = 0L;
+	String file = "";
 	
 	Connection conn = null;
 	PreparedStatement pstmt = null;
@@ -39,7 +38,7 @@
 		pstmt.setString(1, seq);
 		pstmt.executeUpdate();
 		
-		sql = "select subject, writer, mail, wip, wdate, filename, filesize, hit, content from pds_board where seq=?";
+		sql = "select subject, writer, mail, wip, wdate, filename, format(filesize,0) filesize, hit, content from pds_board where seq=?";
 		pstmt = conn.prepareStatement(sql);
 		
 		pstmt.setString(1, seq);
@@ -47,17 +46,17 @@
 		
 		if (rs.next()) {
 			subject = rs.getString("subject");
-			mail = rs.getString("mail");
+			// ==로 했을땐 안됐음
+			if (!rs.getString("mail").equals("")) {
+				mail = "("+rs.getString("mail")+")";	
+			}
 			writer = rs.getString("writer");
 			wip = rs.getString("wip");
 			wdate = rs.getString("wdate");
-			filename = rs.getString("filename");
-			
-			if (filename == null) {
-				filename = "파일이 없습니다.";
-			} 
-			filesize = rs.getLong("filesize");
-			filesize = filesize/1024;
+			if (!rs.getString("filesize").equals("0")) {
+				// file = "<a href='../../upload/" +rs.getString("filename") + "'>"+rs.getString("filename")+"</a>(" + rs.getString("filesize") + "Byte)";
+				file = "<a href='./download.jsp?filename=" +rs.getString("filename") + "'>"+rs.getString("filename")+"</a>(" + rs.getString("filesize") + "Byte)";
+			}
 			hit = rs.getString("hit");
 			content = rs.getString("content").replaceAll("\n","<br>");
 		}
@@ -89,24 +88,24 @@
 </div>
 <div class="con_txt">
 	<div class="contents_sub">
-		<!--게시판--> 
+		<!--게시판-->
 		<div class="board_view">
 			<table>
 			<tr>
 				<th width="10%">제목</th>
 				<td width="60%"><%= subject %></td>
 				<th width="10%">등록일</th>
-				<td width="20%">2017.01.31 09:57</td>
+				<td width="20%"><%= wdate %></td>
 			</tr>
 			<tr>
 				<th>글쓴이</th>
-				<td><%= writer %>(<%= mail %>)(<%= wip %>)</td>
+				<td><%= writer %><%= mail %>(<%= wip %>)</td>
 				<th>조회</th>
 				<td><%= hit %></td>
 			</tr>
 			<tr>
-				<th>첨부 파일</th>
-				<td><%= filename %>(<%= filesize %> Kbyte)</td>
+				<th>파일명</th>
+				<td><%= file %></td>
 				<th></th>
 				<td></td>
 			</tr>
@@ -118,14 +117,14 @@
 
 		<div class="btn_area">
 			<div class="align_left">
-				<input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
+				<input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp?cpage=<%= cpage %>'" />
 			</div>
 			<div class="align_right">
-				<input type="button" value="수정" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_modify1.jsp?seq=<%=seq %>'" />
-				<input type="button" value="삭제" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_delete1.jsp?seq=<%=seq %>'" />
-				<input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='board_write1.jsp'" />
+				<input type="button" value="수정" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_modify1.jsp?cpage=<%= cpage %>&seq=<%=seq %>'" />
+				<input type="button" value="삭제" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_delete1.jsp?cpage=<%= cpage %>&seq=<%=seq %>'" />
+				<input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='board_write1.jsp?cpage=<%= cpage %>'" />
 			</div>
-		</div>
+		</div>	
 		<!--//게시판-->
 	</div>
 </div>

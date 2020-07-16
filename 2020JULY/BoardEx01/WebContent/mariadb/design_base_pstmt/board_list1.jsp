@@ -96,7 +96,7 @@
 				<th width="3%">&nbsp;</th>
 			</tr>
 			<!-- 게시글 시작 -->
-<%=strHtml %>
+				<%=strHtml %>
 			<!-- 게시글 끝 -->
 			</table>
 		</div>	

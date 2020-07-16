@@ -9,14 +9,15 @@
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.sql.ResultSet" %>
 	
-<%
+<%	
+	request.setCharacterEncoding("utf-8");
 	int cpage = 1;
-	
 	if (request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
 		cpage = Integer.parseInt(request.getParameter("cpage"));
 	} else {
 		cpage = 1;
 	} 
+	
 	int recordPerPage = 10;
 	int totalRecord = 0;
 	// 전체 페이지 갯수
@@ -35,7 +36,7 @@
 		DataSource dataSource = (DataSource) envCtx.lookup("jdbc/mariadb1");
 		conn = dataSource.getConnection();
 		
-		String sql = "select seq,subject,writer,date_format(wdate,'%Y-%m-%d') wdate, filename, hit, datediff(now(),wdate) wgap from pds_board order by seq desc";
+		String sql = "select seq,subject,writer,date_format(wdate,'%Y-%m-%d') wdate, filesize, hit, datediff(now(),wdate) wgap from pds_board order by seq desc";
 		// ResultSet 옵션으로 커서의 진행 방향을 조절한다. 이걸 해야 이후의 rs 명령이 가능.
 		pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		rs = pstmt.executeQuery();
@@ -65,7 +66,7 @@
 			String writer = rs.getString("writer");
 			String wdate = rs.getString("wdate");
 			String hit = rs.getString("hit");
-			String filename = rs.getString("filename");
+			Long filesize = rs.getLong("filesize");
 			int wgap = rs.getInt("wgap");
 			
 			strHtml.append("<tr>");
@@ -73,7 +74,7 @@
 			strHtml.append("<td>"+ seq + "</td>");
 			strHtml.append("<td class='left'>");
 			
-			strHtml.append("	<a href='board_view1.jsp?seq="+ seq +"'>"+ subject + "</a>");
+			strHtml.append("	<a href='board_view1.jsp?cpage="+ cpage + "&seq="+ seq +"'>"+ subject + "</a>");
 			if (wgap == 0) {
 				strHtml.append("	&nbsp;<img src='../../images/icon_hot.gif' alt='HOT'>");	
 			}
@@ -81,10 +82,11 @@
 			strHtml.append("<td>"+ writer + "</td>");
 			strHtml.append("<td>"+ wdate + "</td>");
 			strHtml.append("<td>"+ hit + "</td>");
-			if (filename != null) {
+			if (filesize != 0) {
 				strHtml.append("<td><img src='../../images/icon_file.gif'/></td>");	
+			} else {
+				strHtml.append("<td>&nbsp;</td>");	
 			}
-			strHtml.append("<td>&nbsp;</td>");
 			strHtml.append("</tr>");
 	
 		}

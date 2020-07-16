@@ -16,4 +16,6 @@
 2020JULY/Servers/Tomcat v9.0 Server at localhost-config/tomcat-users.xml
 2020JULY/Servers/Tomcat v9.0 Server at localhost-config/web.xml
 2020JULY/Servers/Tomcat v9.0 Server at localhost-config/catalina.policy
+*.jpeg
+*.png
 2020JULY/JDBCEx01/WebContent/META-INF/MANIFEST.MF
