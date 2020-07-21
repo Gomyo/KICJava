@@ -25,4 +25,4 @@ out
 *기본적인 라이브러리
 
 다이나믹 웹 브라우저에 JDBC 라이브러리는 빌드 퍼스트 삽입하지 않고
-WebContent - Web-inf-lib에 붙여넣기
+WebContent - Web-inf-lib에 붙여넣기!
