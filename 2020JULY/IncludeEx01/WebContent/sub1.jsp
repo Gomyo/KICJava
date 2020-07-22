@@ -3,4 +3,6 @@
 <%
 	String data = request.getParameter("data");
 	out.println(data + "<br/>");
+	out.println(request.getAttribute("data1"));
+	out.println(request.getAttribute("data0"));
 %>

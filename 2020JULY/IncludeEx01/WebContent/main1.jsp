@@ -11,6 +11,11 @@
 	out.println("시작<br/>");
 	String data = "Hello Include"; // 이 데이터가 value에 들어감
 	// 메서드에 파라미터 넘기듯 sub1.jsp에 data를 String data를 넘김
+	
+	// 2020.07.21 추가 : request 133p
+	pageContext.setAttribute("data0","value0");
+	request.setAttribute("data1","value1");
+	
 %>
 	<jsp:include page="sub1.jsp">
 		<jsp:param name="data" value="<%= data %>"/>
