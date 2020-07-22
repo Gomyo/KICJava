@@ -10,4 +10,10 @@
 *.jar
 *.jpeg
 *.png
+*.jpeg
+*.jpg
+*.css
+*.gif
+*.mf
+*.properties
 */.metadata
