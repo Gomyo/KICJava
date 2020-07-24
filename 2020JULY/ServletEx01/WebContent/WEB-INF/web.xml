@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+	id="WebApp_ID" version="4.0">
+	<display-name>ServletEx01</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+<!-- 		패키지명에다 클래스명까지 적어줘야 한다.  -->
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>servlet01.servletEx01</servlet-name> -->
+<!-- 		<servlet-class>servlet01.servletEx01</servlet-class> -->
+<!-- 	</servlet> -->
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>servlet01</servlet-name> -->
+<!-- 		<url-pattern>/dir1/servlet01/*</url-pattern> -->
+<!-- 		<url-pattern>/dir2/servlet01/*</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>servlet02</servlet-name> -->
+<!-- 		<servlet-class>servlet2.ServletEx01</servlet-class> -->
+<!-- 	</servlet> -->
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>servlet02</servlet-name> -->
+<!-- 		<url-pattern>/servlet02</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+
+		<servlet>
+			<servlet-name>guguservlet01</servlet-name>
+			<servlet-class>guguservlet.ServletEx01</servlet-class>
+		</servlet>
+		<servlet-mapping>
+			<servlet-name>guguservlet01</servlet-name>
+			<url-pattern>/guguservlet01</url-pattern>
+		</servlet-mapping>
+</web-app>

@@ -41,7 +41,6 @@
 		pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		rs = pstmt.executeQuery();
 		
-		
 		// 맨 밑에 가서
 		rs.last();
 		// 커서를 찍는다.
