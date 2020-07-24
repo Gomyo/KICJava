@@ -1,18 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="model1.*" %>
-<%
-	BoardDTO dto = new BoardDTO();
-	BoardDAO dao = new BoardDAO();
-	
+<%	
+	String cSeq = request.getParameter("cSeq");
 	String seq = request.getParameter("seq");
-	String password = request.getParameter("password");
 	String cpage = request.getParameter("cpage");
 	
-	dto.setSeq(seq);
-	dto.setPassword(password);
-	int flag = dao.boardDeleteOk(dto);
-
+	System.out.println(cSeq);
+	System.out.println(seq);
+	System.out.println(cpage);
+	
+	CommentDAO cdao = new CommentDAO();
+	
+	int flag = 0;
+	
 	out.println("<script type='text/javascript'>");
 	if (flag == 0) {
 		out.println("alert('댓글 쓰기에 성공했습니다.');");

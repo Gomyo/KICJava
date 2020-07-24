@@ -4,7 +4,7 @@
 <%@page import="java.sql.ResultSet" %>
 <%@page import="java.io.File"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
-<%@ page import="model1.*" %>
+<%@ page import="albummodel1.*" %>
 
 <%
 // if(session.getattribute("s_id") == null) {
@@ -39,9 +39,8 @@
 		newfilesize = newfile.length();
 	}
 	
-	BoardDTO dto = new BoardDTO();
+	BoardTO dto = new BoardTO();
 	dto.setSeq(multi.getParameter("seq"));
-	dto.setCpage(multi.getParameter("cpage"));
 	
 	BoardDAO dao = new BoardDAO();
 	

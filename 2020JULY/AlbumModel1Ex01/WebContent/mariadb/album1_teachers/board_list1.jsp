@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="albummodel1.*" %>
+<%@ page import="albummodel1.BoardDAO" %>
+<%@ page import="albummodel1.BoardListTO" %>
+<%@ page import="albummodel1.BoardTO" %>
 
 <%@ page import="java.util.ArrayList" %>
 

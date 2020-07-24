@@ -3,7 +3,8 @@
 <%@ page import="java.io.File" %>
 <%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
 <%@ page import="com.oreilly.servlet.MultipartRequest" %>
-<%@ page import="model1.*" %>
+<%@ page import="albummodel1.BoardDAO" %>
+<%@ page import="albummodel1.BoardTO" %>
 
 <%
 	// 파일 업로드를 위한 코드
@@ -13,19 +14,19 @@
 	
 	MultipartRequest multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy());
 	
-	BoardDTO dto = new BoardDTO();
-	dto.setSubject(multi.getParameter("subject"));
-	dto.setWriter(multi.getParameter("writer"));
-	dto.setMail("");
+	BoardTO to = new BoardTO();
+	to.setSubject(multi.getParameter("subject"));
+	to.setWriter(multi.getParameter("writer"));
+	to.setMail("");
 	if (!multi.getParameter("mail1").equals("") && !multi.getParameter("mail2").equals("")) {
-		dto.setMail(multi.getParameter("mail1") + "@" + multi.getParameter("mail2"));
+		to.setMail(multi.getParameter("mail1") + "@" + multi.getParameter("mail2"));
 	}
-	dto.setPassword(multi.getParameter("password"));
-	dto.setContent(multi.getParameter("content"));
-	dto.setWip(request.getRemoteAddr());
+	to.setPassword(multi.getParameter("password"));
+	to.setContent(multi.getParameter("content"));
+	to.setWip(request.getRemoteAddr());
 	
 	String filename = multi.getFilesystemName("upload");
-	dto.setFilename(filename);
+	to.setFilename(filename);
 	
 	long filesize = 0;
 	File file = multi.getFile("upload");
@@ -33,10 +34,10 @@
 	if (file != null) {
 		filesize = file.length();
 	}
-	dto.setFilesize(filesize);
+	to.setFilesize(filesize);
 	
 	BoardDAO dao = new BoardDAO();
-	int flag = dao.boardWriteOk(dto);
+	int flag = dao.boardWriteOk(to);
 	
 	out.println("<script type='text/javascript'>");
 	if (flag == 0) {

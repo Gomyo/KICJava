@@ -1,6 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="model1.*" %>
+<%@ page import="albummodel1.*" %>
 <%
 // 	if(session.getAttribute("s_id") == null) {
 // 		out.println("<script type='text/javascript'>");
@@ -11,25 +11,22 @@
 	
 		request.setCharacterEncoding("UTF-8");
 		
-		BoardDTO dto = new BoardDTO();
+		BoardTO dto = new BoardTO();
 		dto.setSeq(request.getParameter( "seq" ));
-		dto.setCpage(request.getParameter("cpage"));
 		
 		BoardDAO dao = new BoardDAO();
 		dto = dao.boardModify(dto);
-	
+		
+		String cpage = request.getParameter( "cpage" );
 		String seq = dto.getSeq();
-		String cpage = dto.getCpage();
 		String subject = dto.getSubject();
 		String writer = dto.getWriter();
-		String[] mail = dto.getModifyMail();
-		String content = dto.getContent();
-		String filename = "";
-		if (dto.getFilename() == null) {
-			filename = "파일없음";
-		} else {
-			filename = dto.getFilename(); // 기존 파일
+		String mail[] = dto.getMail().split( "@" );
+		if( mail.length == 1 ) {
+			mail = new String[] { "", "" };
 		}
+		String content = dto.getContent();
+		String filename = dto.getFilename();	
 %>
 
 <!DOCTYPE html>

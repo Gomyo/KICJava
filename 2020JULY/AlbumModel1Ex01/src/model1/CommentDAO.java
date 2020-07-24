@@ -72,7 +72,7 @@ public class CommentDAO {
 		
 		try {
 			conn = this.dataSource.getConnection();
-			String sql = "select writer, wdate, content from comment_board where seq=? order by comment_seq desc";
+			String sql = "select comment_seq, writer, wdate, content from comment_board where seq=? order by comment_seq desc";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, commentlistDTO.getSeq());
 			rs = pstmt.executeQuery();
@@ -85,10 +85,10 @@ public class CommentDAO {
 		
 			while (rs.next()) {
 				CommentDTO cdto = new CommentDTO();
+				cdto.setCommentSeq(rs.getString("comment_seq"));
 				cdto.setCwriter(rs.getString("writer"));
 				cdto.setWdate(rs.getString("wdate"));
 				cdto.setCcontent(rs.getString("content"));
-				
 				clists.add(cdto);
 //				System.out.println(cdto);
 			}

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="albummodel1.*" %>
+<%@ page import="albummodel1.CommentDAO" %>
+<%@ page import="albummodel1.CommentTO" %>
 <%
 	request.setCharacterEncoding( "utf-8" );
 	
@@ -9,9 +10,9 @@
 	
 	CommentTO cto = new CommentTO();
 	cto.setPseq( request.getParameter( "pseq" ) );		
-	cto.setWriter( request.getParameter( "cwriter" ) );
-	cto.setPassword( request.getParameter( "cpassword" ) );
-	cto.setContent( request.getParameter( "ccontent" ) );
+	cto.setWriter( request.getParameter( "writer" ) );
+	cto.setPassword( request.getParameter( "password" ) );
+	cto.setContent( request.getParameter( "content" ) );
 	CommentDAO cdao = new CommentDAO();
 	int flag = cdao.commentWriteOk( cto );
 	

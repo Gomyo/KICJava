@@ -1,6 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="model1.*"%>
+<%@ page import="albummodel1.*"%>
 <%
 	// if(session.getAttribute("s_id") == null) {
 // 	out.println("<script type='text/javascript'>");
@@ -11,20 +11,18 @@
 
 request.setCharacterEncoding("UTF-8");
 
-BoardDTO dto = new BoardDTO();
+BoardTO dto = new BoardTO();
 dto.setSeq(request.getParameter("seq"));
-dto.setCpage(request.getParameter("cpage"));
 
 BoardDAO dao = new BoardDAO();
 dto = dao.boardDelete(dto);
 
+String cpage = request.getParameter( "cpage" );
 String seq = dto.getSeq();
 String subject = dto.getSubject();
 String writer = dto.getWriter();
-String cpage = dto.getCpage();
-System.out.println(seq);
-System.out.println(cpage);
 %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>

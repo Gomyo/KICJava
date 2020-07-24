@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="model1.*" %>
+<%@ page import="albummodel1.*" %>
 <%
 // if(session.getAttribute("s_id") == null) {
 // 	out.println("<script type='text/javascript'>");
@@ -8,15 +8,12 @@
 // 	out.println("location.href='./board_list1.jsp';");
 // 	out.println("</script>");
 // } 	else {
-	BoardDTO dto = new BoardDTO();
+	BoardTO dto = new BoardTO();
 	BoardDAO dao = new BoardDAO();
 	
 	String seq = request.getParameter("seq");
 	String password = request.getParameter("password");
 	String cpage = request.getParameter("cpage");
-	System.out.println(seq);
-	System.out.println(password);
-	System.out.println(cpage);
 	
 	dto.setSeq(seq);
 	dto.setPassword(password);

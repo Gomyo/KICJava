@@ -1,50 +1,51 @@
 ﻿<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="model1.*" %>
-<%
-	request.setCharacterEncoding("UTF-8");
+<%@ page import="albummodel1.*" %>
 
-	String seq = request.getParameter( "seq" );
-	String cpage = request.getParameter("cpage");
+<%
+	request.setCharacterEncoding( "utf-8" );
 	
-	BoardDTO dto = new BoardDTO();
-	dto.setSeq(seq);
-	dto.setCpage(cpage);
+	String cpage = request.getParameter( "cpage" );
+	
+	BoardTO to = new BoardTO();
+	to.setSeq( request.getParameter( "seq" ) );
 	
 	BoardDAO dao = new BoardDAO();
-	dto = dao.boardView(dto);
+	to = dao.boardView( to );
 	
-	String subject = dto.getSubject();
-	String writer = dto.getWriter();
-	String mail = dto.getMail();
-	String hit = dto.getHit();
-	String wdate = dto.getWdate();
-	String filename = dto.getFilename();
-	String wip = dto.getWip();
-	String content = dto.getContent();
-	
-// 	comment 부분
-	CommentDTO cDTO = new CommentDTO();
-	cDTO.setSeq(seq);
+	String seq = to.getSeq();
+	String subject = to.getSubject();
+	String writer = to.getWriter();
+	String mail = to.getMail();
+	String wip = to.getWip();
+	String wdate = to.getWdate();
+	String hit = to.getHit();
+	String content = to.getContent();
+	String filename = to.getFilename();
 	
 	CommentDAO cdao = new CommentDAO();
-	cDTO = cdao.commentlist(cDTO);
+	ArrayList<CommentTO> commentLists = cdao.commentList( to );
 	
-	ArrayList<CommentDTO> commentList = cDTO.getCommentList();
-	int totalComment = cDTO.getCommentAll();
 	StringBuffer commentHtml = new StringBuffer();
-	
-	for (CommentDTO cdto : commentList) {
-		String cWriter = cdto.getCwriter();
+		
+	for (CommentTO cdto : commentLists) {
+		String cSeq = cdto.getSeq();
+		String cWriter = cdto.getWriter();
 		String cWdate = cdto.getWdate();
-		String cContent = cdto.getCcontent();
+		String cContent = cdto.getContent();
 		
 		commentHtml.append("<tr>");
 		commentHtml.append("<td class='coment_re' width='20%'>");
 		commentHtml.append("<strong>"+ cWriter + "</strong> (" + cWdate + ")");
 		commentHtml.append("<div class='coment_re_txt'>"+cContent);
-		commentHtml.append("</div><input type=</td></tr>");
+		// 댓글 삭제 버튼 추가
+		commentHtml.append("</div><form action='./board_comment1_delete_ok.jsp' method='post' name='cdfrm'>");
+// 		commentHtml.append("<input type='hidden' name='cPassword' value='"+cSeq+"'>");
+		commentHtml.append("<input type='hidden' name='seq' value='"+seq+"'>");
+		commentHtml.append("<input type='hidden' name='cpage' value='"+cpage+"'>");
+		commentHtml.append("<input type='hidden' name='cSeq' value='"+cSeq+"'>");
+		commentHtml.append("<div class='align_right'><img src='../../images/icon_del.gif' onclick=''/></a></form></td></tr>");
 	}
 %>
 <!DOCTYPE html>
@@ -57,6 +58,9 @@
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="../../css/board_view.css">
 <script type="text/javascript">
+	var commentDel = function () {
+		location.href='./board_comment1_delete_ok.jsp';
+	}
 	window.onload = function() {
 		// 버튼을 누르고 값을 검사하기
 		document.getElementById('cbtn').onclick = function() {
@@ -73,7 +77,7 @@
 				return false;
 			}
 			document.cfrm.submit();
-		};
+		}
 	};
 </script>
 </head>
@@ -119,8 +123,8 @@
 				<%= commentHtml %>
 			</table>
 
-			<form action="board_comment1_ok.jsp" method="post" name="cfrm">
-			<input type="hidden" name="seq" value="<%= seq %>"/>
+			<form action="./board_comment1_ok.jsp" method="post" name="cfrm">
+			<input type="hidden" name="pseq" value="<%=seq %>" />	
 			<input type="hidden" name="cpage" value="<%= cpage %>"/>
 			<table>
 			<tr>
