@@ -31,12 +31,20 @@
 <!-- 		<url-pattern>/servlet02</url-pattern> -->
 <!-- 	</servlet-mapping> -->
 
-		<servlet>
-			<servlet-name>guguservlet01</servlet-name>
-			<servlet-class>guguservlet.ServletEx01</servlet-class>
-		</servlet>
-		<servlet-mapping>
-			<servlet-name>guguservlet01</servlet-name>
-			<url-pattern>/guguservlet01</url-pattern>
-		</servlet-mapping>
+<!-- 		<servlet> -->
+<!-- 			<servlet-name>guguservlet01</servlet-name> -->
+<!-- 			<servlet-class>guguservlet.ServletEx01</servlet-class> -->
+<!-- 		</servlet> -->
+<!-- 		<servlet-mapping> -->
+<!-- 			<servlet-name>guguservlet01</servlet-name> -->
+<!-- 			<url-pattern>/guguservlet01</url-pattern> -->
+<!-- 		</servlet-mapping> -->
+	<servlet>
+		<servlet-name>servlet03</servlet-name>
+		<servlet-class>servlet3.ServletEx01</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>servlet03</servlet-name>
+		<url-pattern>/servlet03</url-pattern>
+	</servlet-mapping>
 </web-app>

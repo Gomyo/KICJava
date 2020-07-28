@@ -7,10 +7,6 @@
 <%@ page import="javax.sql.DataSource" %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.SQLException" %>
-<%@ page import="java.io.File" %>
-<%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
-<%@ page import="com.oreilly.servlet.MultipartRequest" %>
-<%@ page import="model1.*" %>
 
 <%
 	// 인코딩
@@ -28,17 +24,16 @@
 		conn = dataSource.getConnection();
 		
 		// 아래 두줄은 for문에 넣으면 안되지.
-		String sql = "insert into album_board1 values(0,?,?,?,?,?,?,?,0,?,now())";
+		String sql = "insert into emoji_board values(0,?,?,?,?,?,?,0,?,now())";
 		pstmt = conn.prepareStatement(sql);
-		for (int i=1; i<=17; i++){
+		for (int i=1; i<=100; i++){
 				pstmt.setString(1, "제목"+i);		
 				pstmt.setString(2, "이름");		
 				pstmt.setString(3, "naver@naver.com");
 				pstmt.setString(4, "123");		
 				pstmt.setString(5, "내용"+i);
-				pstmt.setString(6, null);
-				pstmt.setLong(7, 0);
-				pstmt.setString(8, "000.000.000.000");	
+				pstmt.setString(6, "30");
+				pstmt.setString(7, "000.000.000.000");	
 				pstmt.executeUpdate();
 			}
 		

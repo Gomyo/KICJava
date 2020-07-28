@@ -26,64 +26,56 @@
 	
 	ArrayList<BoardTO> boardLists = listTO.getBoardList();
 	
-	StringBuffer sbHtml = new StringBuffer();
+	StringBuffer strHtml = new StringBuffer();
 	
-	for( int i=0 ; i<recordPerPage ; i++ ) {
-		if( i % 5 == 0 ) {
-			sbHtml.append( "<tr>" );
-		}
+	int imgcount = 0;
+	
+	for (BoardTO dto : boardLists) {
+		String seq = dto.getSeq();
+		String subject = dto.getSubject();
+		String writer = dto.getWriter();
+		String wdate = dto.getWdate();
+		String hit = dto.getHit();
+		String cmt = dto.getCmt();
+		String filename = dto.getFilename();
+		int wgap = dto.getWgap();
 		
-		if( i < boardLists.size() ) {
-			BoardTO to = boardLists.get(i);
-			String seq = to.getSeq();
-			String subject = to.getSubject();
-			String writer = to.getWriter();
-			String cmt = to.getCmt();
-			String filename = to.getFilename();
-			String wdate = to.getWdate();
-			String hit = to.getHit();
-			int wgap = to.getWgap();
-
-			sbHtml.append( "<td width='20%' class='last2'>" );
-			sbHtml.append( "<div class='board'>" );
-			sbHtml.append( "	<table class='boardT'>" );
-			sbHtml.append( "	<tr>" );
-			sbHtml.append( "		<td class='boardThumbWrap'>" );
-			sbHtml.append( "			<div class='boardThumb'>" );
-			sbHtml.append( "				<a href='board_view1.jsp?cpage=" + cpage + "&seq=" + seq + "'><img src='../../upload/" + filename + "' border='0' width='100%' /></a>" );
-			sbHtml.append( "			</div>" );
-			sbHtml.append( "		</td>" );
-			sbHtml.append( "	</tr>" );
-			sbHtml.append( "	<tr>" );
-			sbHtml.append( "		<td>" );
-			sbHtml.append( "			<div class='boardItem'>" );	
-			sbHtml.append( "				<strong>" + subject + "</strong>" );
-			sbHtml.append( "				<span class='coment_number'><img src='../../images/icon_comment.png' alt='comment'>" + cmt + "</span>" );
-			if(wgap == 0 ) {
-				sbHtml.append( "				<img src='../../images/icon_hot.gif' alt='HOT'>" );
-			}
-			sbHtml.append( "			</div>" );
-			sbHtml.append( "		</td>" );
-			sbHtml.append( "	</tr>" );
-			sbHtml.append( "	<tr>" );
-			sbHtml.append( "		<td><div class='boardItem'><span class='bold_blue'>" + writer + "</span></div></td>" );
-			sbHtml.append( "	</tr>" );
-			sbHtml.append( "	<tr>" );
-			sbHtml.append( "		<td><div class='boardItem'>" + wdate + "<font>|</font> Hit " + hit + "</div></td>" );
-			sbHtml.append( "	</tr>" );
-			sbHtml.append( "	</table>" );
-			sbHtml.append( "</div>" );
-			sbHtml.append( "</td>" );		
+		if (imgcount%5 == 0 && imgcount != 0) {
+			strHtml.append("</tr>");	
+		}
+		if (imgcount%5 == 0 && imgcount != 5) {
+			strHtml.append("<tr>");	
+		}
+		strHtml.append("<td width='20%' class='last2'>");
+		
+		strHtml.append("<div class='board'>");
+		strHtml.append("<table class='boardT'>");
+		strHtml.append("<tr>");
+		strHtml.append("<td class='boardThumbWrap'>");
+		strHtml.append("<div class='boardThumb'>");
+		if (filename == null) {
+			strHtml.append("	<a href='board_view1.jsp?cpage="
+					+ cpage + "&seq=" + seq +"'><img src='../../images/noimage3.jpg' border='0' width='100%' /></a>");
 		} else {
-			sbHtml.append( "<td width='20%' class='last2'>" );
-			sbHtml.append( "	<div class='board'>" );
-			sbHtml.append( "	</div>" );
-			sbHtml.append( "</td>" );
+			strHtml.append("	<a href='board_view1.jsp?cpage="
+					+ cpage + "&seq=" + seq +"'><img src='../../upload/"+ filename +"' border='0' width='100%' /></a>");
 		}
 		
-		if( i % 5 == 4 ) {
-			sbHtml.append( "</tr>" );
-		}	
+		strHtml.append("</div></td></tr><tr><td>");
+		strHtml.append("<div class='boardItem'>");
+		strHtml.append("<strong>"+ subject +"</strong>");
+		strHtml.append("<span class='coment_number'><img src='../../images/icon_comment.png' alt='comment'>" + cmt + "</span>");
+		if (wgap == 0) {
+			strHtml.append("	&nbsp;<img src='../../images/icon_hot.gif' alt='HOT'>");	
+		}
+		strHtml.append("</div></td></tr><tr>");
+		strHtml.append("<td><div class='boardItem'><span class='bold_blue'>"+ writer +"</span></div></td>");
+		strHtml.append("</tr>");
+		strHtml.append("<tr>");
+		strHtml.append("<td><div class='boardItem'>"+ wdate +"<font>|</font> Hit "+ hit +"</div></td>");
+		strHtml.append("</tr>");
+		strHtml.append("</table></div></td>");
+		imgcount++;	
 	}
 %>
 <!DOCTYPE html>
@@ -121,7 +113,7 @@
 		
 		<!--게시판-->
 		<table class="board_list">
-		<%=sbHtml %>
+		<%= strHtml %>
 		</table>
 		<!--//게시판-->	
 		
