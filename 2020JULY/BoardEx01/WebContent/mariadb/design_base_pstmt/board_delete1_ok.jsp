@@ -27,7 +27,7 @@
 		
 		conn = dataSource.getConnection();
 		
-		String sql = "delete from board1 where seq=? and password=?";
+		String sql = "delete from board where seq=? and password=?";
 		pstmt = conn.prepareStatement( sql );
 		pstmt.setString( 1, seq );
 		pstmt.setString( 2, password );

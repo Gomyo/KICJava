@@ -19,7 +19,6 @@
 	String wdate = dto.getWdate();
 	String wip = dto.getWip();
 	String content = dto.getContent();
-	
 %>
 <!DOCTYPE html>
 <html lang="ko">
