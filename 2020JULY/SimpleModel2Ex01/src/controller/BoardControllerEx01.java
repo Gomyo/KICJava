@@ -52,7 +52,7 @@ public class BoardControllerEx01 extends HttpServlet {
 			// 경로를 만든다.
 			String action = request.getParameter("action");
 			
-			String url = "/WEB-INF/model2/error.jsp";
+			String url = "/WEB-INF/design_album1/error.jsp";
 			
 			BoardAction boardAction = null;
 			// 초기페이지거나 list가 담겨져오면 리스트를 보여줘라

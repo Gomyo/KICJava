@@ -45,7 +45,9 @@ public class BoardControllerEx02 extends HttpServlet {
 			String url = "/WEB-INF/views/error.jsp";
 			
 			BoardAction boardAction = null;
-			if (path.equals("/*.do") || path.equals("/list.do")) {
+//			if (path.equals("/*.do") || path.equals("/list.do")) {
+			// url에 경로까지 지정해보기
+			if (path.equals("/board2/*.do") || path.equals("/board2/list.do")) {
 				boardAction = new ListAction();
 				boardAction.execute(request, response);
 				url = "/WEB-INF/model3/board_list1.jsp";

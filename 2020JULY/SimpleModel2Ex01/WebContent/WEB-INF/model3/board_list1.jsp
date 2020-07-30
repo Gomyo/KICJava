@@ -23,7 +23,7 @@
 		strHtml.append("<td class='left'>");
 		strHtml.append("<a href='./view.do?seq=" + seq + "'>" + subject + "</a>");
 		if( wgap == 0 ) {
-			strHtml.append("&nbsp;<img src='./images/icon_hot.gif' alt='HOT'>");
+			strHtml.append("&nbsp;<img src='../images/icon_hot.gif' alt='HOT'>");
 		}
 		strHtml.append("</td>");
 		strHtml.append("<td>" + writer + "</td>");
@@ -32,7 +32,6 @@
 		strHtml.append("<td>&nbsp;</td>");
 		strHtml.append("</tr>");
 	}
-
 %>
 <!DOCTYPE html>
 <html lang="ko">

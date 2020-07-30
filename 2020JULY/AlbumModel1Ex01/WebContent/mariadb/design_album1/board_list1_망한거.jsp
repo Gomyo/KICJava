@@ -11,33 +11,33 @@
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="model1.*" %>
 	
-<%	
-	request.setCharacterEncoding("utf-8");
-	int cpage = 1;
-	if (request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
+<%
+		request.setCharacterEncoding("utf-8");
+			int cpage = 1;
+			if (request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
 		cpage = Integer.parseInt(request.getParameter("cpage"));
-	} else {
+			} else {
 		cpage = 1;
-	} 
-	
-	BoardListDTO listDTO = new BoardListDTO();
-	listDTO.setCpage(cpage);
-	
-	BoardDAO dao = new BoardDAO();
-	listDTO = dao.boardList(listDTO);
-	
-	int totalRecord = listDTO.getTotalRecord();
-	int totalPage = listDTO.getTotalPage();
-	int blockPerPage = listDTO.getBlockPerPage();
-	int startBlock = listDTO.getStartBlock();
-	int endBlock = listDTO.getEndBlock();
+			} 
+			
+			BoardListTO listDTO = new BoardListTO();
+			listDTO.setCpage(cpage);
+			
+			BoardDAO dao = new BoardDAO();
+			listDTO = dao.boardList(listDTO);
+			
+			int totalRecord = listDTO.getTotalRecord();
+			int totalPage = listDTO.getTotalPage();
+			int blockPerPage = listDTO.getBlockPerPage();
+			int startBlock = listDTO.getStartBlock();
+			int endBlock = listDTO.getEndBlock();
 
-	ArrayList<BoardDTO> boardLists = listDTO.getBoardLists();
-	StringBuffer strHtml = new StringBuffer();
-	
-	int imgcount = 0;
-	
-	for (BoardDTO dto : boardLists) {
+			ArrayList<BoardTO> boardLists = listDTO.getBoardLists();
+			StringBuffer strHtml = new StringBuffer();
+			
+			int imgcount = 0;
+			
+			for (BoardTO dto : boardLists) {
 		String seq = dto.getSeq();
 		String subject = dto.getSubject();
 		String writer = dto.getWriter();
@@ -69,10 +69,10 @@
 		strHtml.append("<div class='boardThumb'>");
 		if (filename == null) {
 			strHtml.append("	<a href='board_view1.jsp?cpage="
-					+ cpage + "&seq=" + seq +"'><img src='../../images/noimage3.jpg' border='0' width='100%' /></a>");
+			+ cpage + "&seq=" + seq +"'><img src='../../images/noimage3.jpg' border='0' width='100%' /></a>");
 		} else {
 			strHtml.append("	<a href='board_view1.jsp?cpage="
-					+ cpage + "&seq=" + seq +"'><img src='../../upload/"+ filename +"' border='0' width='100%' /></a>");
+			+ cpage + "&seq=" + seq +"'><img src='../../upload/"+ filename +"' border='0' width='100%' /></a>");
 		}
 		
 		strHtml.append("</div></td></tr><tr><td>");
@@ -90,8 +90,8 @@
 		strHtml.append("</tr>");
 		strHtml.append("</table></div></td>");
 		imgcount++;	
-	}
-%>	
+			}
+	%>	
 <!DOCTYPE html>
 <html lang="ko">
 <head>
