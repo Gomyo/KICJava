@@ -17,3 +17,5 @@
 *.mf
 *.properties
 */.metadata
+apache-tomcat-9.0.37
+workspace
