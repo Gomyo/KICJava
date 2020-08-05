@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis2">
+	<sql id="userCol">empno, ename, job</sql>
+	<select id="selectlist1" resultType="java.util.HashMap">
+		select <include refid="userCol"/>
+		from emp
+	</select>
+	<select id="selectlist2" parameterType="String" resultType="java.util.HashMap">
+		select <include refid="userCol"/>
+		from emp
+		where ename = #{ename}
+	</select>
+	
+</mapper>
