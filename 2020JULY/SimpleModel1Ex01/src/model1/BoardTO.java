@@ -1,6 +1,6 @@
 package model1;
 
-public class BoardDTO {
+public class BoardTO {
 	private String seq;
 	private String subject;
 	private String writer;

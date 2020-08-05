@@ -6,7 +6,7 @@ public class DongComboBoxModel extends DefaultComboBoxModel<String> {
 	private ArrayList<String> datas = new ArrayList<String>();
 	
 	public DongComboBoxModel(String gugun) {
-		DAO dao = new DAO();
+		ZipcodeDAO dao = new ZipcodeDAO();
 		datas = dao.allDong(gugun);
 	}
 	@Override

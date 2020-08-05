@@ -28,7 +28,7 @@ public class BoardDAO {
 		}
 	}
 
-	public int boardWriteOk(BoardDTO dto) {
+	public int boardWriteOk(BoardTO dto) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
@@ -74,12 +74,12 @@ public class BoardDAO {
 		return flag;
 	}
 
-	public ArrayList<BoardDTO> boardList() {
+	public ArrayList<BoardTO> boardList() {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		ArrayList<BoardDTO> lists = new ArrayList<BoardDTO>();
+		ArrayList<BoardTO> lists = new ArrayList<BoardTO>();
 		try {
 			conn = this.dataSource.getConnection();
 			String sql = "select seq, subject, writer, date_format(wdate, '%Y-%m-%d') wdate, hit, datediff(now(), wdate) wgap from board order by seq desc";
@@ -88,7 +88,7 @@ public class BoardDAO {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				BoardDTO dto = new BoardDTO();
+				BoardTO dto = new BoardTO();
 				dto.setSeq(rs.getString("seq"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setWriter(rs.getString("writer"));
@@ -120,7 +120,7 @@ public class BoardDAO {
 		return lists;
 	}
 
-	public BoardDTO boardView(BoardDTO dto) {
+	public BoardTO boardView(BoardTO dto) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -169,7 +169,7 @@ public class BoardDAO {
 		return dto;
 	}
 
-	public BoardDTO boardModify(BoardDTO dto) {
+	public BoardTO boardModify(BoardTO dto) {
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -215,7 +215,7 @@ public class BoardDAO {
 		return dto;
 	}
 
-	public int boardModifyOk(BoardDTO dto) {
+	public int boardModifyOk(BoardTO dto) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
@@ -255,7 +255,7 @@ public class BoardDAO {
 		return flag;
 	}
 
-	public BoardDTO boardDelete(BoardDTO dto) {
+	public BoardTO boardDelete(BoardTO dto) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -294,7 +294,7 @@ public class BoardDAO {
 		return dto;
 	}
 
-	public int boardDeleteOk(BoardDTO dto) {
+	public int boardDeleteOk(BoardTO dto) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 

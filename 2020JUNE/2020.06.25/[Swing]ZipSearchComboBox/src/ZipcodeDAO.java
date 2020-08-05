@@ -5,12 +5,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class DAO {
+public class ZipcodeDAO {
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 	
-	public DAO() {
+	public ZipcodeDAO() {
 		String url = "jdbc:mysql://localhost:3306/project";
 		String user = "root";
 		String password = "123456";

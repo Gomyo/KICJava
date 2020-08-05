@@ -2,7 +2,7 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<environments default="mariadb2">
-		<environment id="mariadb2">
+		<environment id="mariadb1">
 			<transactionManager type="JDBC"/>
 			<dataSource type="POOLED">
 				<property name="driver" value="org.mariadb.jdbc.Driver"/>
@@ -11,8 +11,15 @@
 				<property name="password" value="123456"/>			
 			</dataSource>
 		</environment>
+		<environment id="mariadb2">
+			<transactionManager type="JDBC"/>
+			<dataSource type="JNDI">
+				<property name="data_source" value="java:comp/env/jdbc/mariadb1"/>
+			</dataSource>
+		</environment>
 	</environments>
+	
 	<mappers>
-		<mapper resource="mapper.xml"/>
+		<mapper resource="model1/dept.xml"/>
 	</mappers>
 </configuration>

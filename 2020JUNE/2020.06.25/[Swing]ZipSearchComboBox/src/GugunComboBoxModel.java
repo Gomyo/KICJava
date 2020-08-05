@@ -6,7 +6,7 @@ public class GugunComboBoxModel extends DefaultComboBoxModel<String> {
 	private ArrayList<String> datas = new ArrayList<String>();
 
 	public GugunComboBoxModel(String sido) {
-		DAO dao = new DAO();
+		ZipcodeDAO dao = new ZipcodeDAO();
 		datas = dao.allGugun(sido);
 	}
 

@@ -7,7 +7,7 @@ public class TableModel extends AbstractTableModel {
 	private ArrayList<DTO> datas = new ArrayList<DTO>();
 
 	public TableModel(String strDong) {
-		DAO dao = new DAO();
+		ZipcodeDAO dao = new ZipcodeDAO();
 		datas = dao.allZipcode(strDong);
 	}
 
