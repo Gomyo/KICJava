@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="action" class="spring.WriteAction" scope="singleton">
+		<property name="writer">
+			<value>writer</value>
+		</property>
+	</bean>
+	
+<!-- 	<bean id="action2" class="spring.ListAction" scope="singleton" init-method="initializer" destroy-method="destroyer"> -->
+<!-- 		<property name="writer"> -->
+<!-- 			<value>writer</value> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
+</beans>

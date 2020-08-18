@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="to" class="spring.BoardTO" scope="prototype">
+		<property name="seq" value="2"/>
+		<property name="subject" value="제목2"/>
+	</bean>
+	 
+	<bean id="action" class="spring.WriteAction" scope="prototype">
+		<property name="to" ref="to">
+		
+<!-- 			<bean class="spring.BoardTO" scope="prototype"> -->
+<!-- 				<property name="seq" value="2"></property> -->
+<!-- 				<property name="subject" value="제목2"></property> -->
+<!-- 			</bean> -->
+		</property>
+	</bean>
+</beans>

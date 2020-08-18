@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<!-- DI -->
+	<bean id="action" class="spring.WriteAction">
+		<property name="writer" value="싱숑"></property>		
+	</bean>
+	
+	<bean id="basicAdvice" class="aop.BasicAdvice"/>
+	
+	<aop:config>
+		<aop:aspect ref="basicAdvice">
+			<aop:before method="before" pointcut="execution(* execute())"/>
+		</aop:aspect>
+		
+		<aop:aspect ref="basicAdvice">
+			<aop:after method="after" pointcut="execution(* execute1())"/>
+		</aop:aspect>
+	</aop:config>
+</beans>

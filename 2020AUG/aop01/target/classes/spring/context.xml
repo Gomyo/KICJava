@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- AOP 선언 -->
+	<bean id="basicAdvice" class="aop.BasicAdvice"/>
+	<bean id="basicAdvice2" class="aop.BasicAdvice2"/>
+	
+	<bean id="pointcutAdvisor"
+		class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<!-- advice -->
+		<property name="advice">
+			<bean class="aop.BasicAdvice" />
+		</property>
+		<!-- pointcut -->
+		<property name="pointcut">
+			<bean class="org.springframework.aop.support.JdkRegexpMethodPointcut">
+				<property name="pattern" value=".*execute1"></property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="pointcutAdvisor2"
+		class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<!-- advice -->
+		<property name="advice">
+			<bean class="aop.BasicAdvice2" />
+		</property>
+		<!-- pointcut -->
+		<property name="pointcut">
+			<bean class="org.springframework.aop.support.JdkRegexpMethodPointcut">
+				<property name="pattern" value=".*execute2"></property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="action" class="spring.WriteAction">
+		<property name="writer">
+			<value>길동쓰</value>
+		</property>
+	</bean>
+	<!-- AOP 적용 -->
+	<bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="action"/>
+		<property name="interceptorNames">
+			<list>
+				<value>pointcutAdvisor</value>
+				<value>pointcutAdvisor2</value>
+			</list>
+		</property>
+	</bean>
+</beans>

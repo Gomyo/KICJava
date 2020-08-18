@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<bean id="action" class="spring.WriteAction">
+		<property name="writer">
+			<value>홍길동</value>
+		</property>
+	</bean>
+
+	<bean id="basicAdvice" class="aop.BasicAdvice" />
+	<bean id="basicAdvice2" class="aop.BasicAdvice2" />
+
+	<!-- AOP 설정 -->
+	<aop:config>
+<!-- 		<aop:aspect ref="basicAdvice" order="2"> -->
+		<aop:aspect ref="basicAdvice">
+			<!-- 이 두줄을 아래의 한줄로 줄일 수도 있다. -->
+			<!-- <aop:pointcut id="pointCut" expression="execution(* execute())" /> -->
+			<!-- <aop:around method="logAround" pointcut-ref="pointCut" /> -->
+
+			<aop:around method="logAround"
+				pointcut="execution(* execute())" />
+		</aop:aspect>
+<!-- 		<aop:aspect ref="basicAdvice2" order="1"> -->
+		<aop:aspect ref="basicAdvice2">
+			<aop:around method="logAround"
+				pointcut="execution(* execute())" />
+		</aop:aspect>
+	</aop:config>
+
+</beans>
