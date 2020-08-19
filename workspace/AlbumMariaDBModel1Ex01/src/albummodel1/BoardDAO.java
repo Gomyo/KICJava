@@ -14,7 +14,8 @@ import javax.sql.DataSource;
 
 public class BoardDAO {
 	private DataSource dataSource = null;
-	private String uploadPath = "C:/Coding/KICJava/workspace/SpringMVCEx11_Annotation_album_Teacher/src/main/webapp/upload";
+	private String uploadPath = "C:/Coding/KICJava/workspace/AlbumMariaDBModel1Ex01/WebContent/upload/";
+	
 	public BoardDAO() {
 		// TODO Auto-generated constructor stub
 		try {
@@ -25,6 +26,10 @@ public class BoardDAO {
 			// TODO Auto-generated catch block
 			System.out.println( "[에러] : " + e.getMessage() );
 		}
+	}
+	
+	public void boardWrite() {
+		
 	}
 	
 	public int boardWriteOk(BoardTO to) {
@@ -125,11 +130,11 @@ public class BoardDAO {
 		ResultSet rs = null;
 		
 		try {
-			conn = this.dataSource.getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = "update album_board1 set hit=hit+1 where seq=?";
 			pstmt = conn.prepareStatement( sql );
-			pstmt.setString( 1, to.getSeq());
+			pstmt.setString( 1, to.getSeq() );
 
 			pstmt.executeUpdate();
 			
@@ -324,6 +329,7 @@ public class BoardDAO {
 				sql = "delete from album_comment1 where pseq=?";
 				pstmt = conn.prepareStatement( sql );
 				pstmt.setString( 1, to.getSeq() );
+
 				pstmt.executeUpdate();
 			}
 		} catch( SQLException e ) {

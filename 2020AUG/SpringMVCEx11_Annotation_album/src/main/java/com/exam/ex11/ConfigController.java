@@ -36,7 +36,7 @@ import albummodel1.CommentTO;
 public class ConfigController {
 	@Autowired
 	private DataSource dataSource;
-	private String uploadPath = "C:/Coding/KICJava/workspace/SpringMVCEx11_Annotation_album/src/main/webapp/upload";
+	private String uploadPath = "C:/Coding/KICJava/2020AUG/SpringMVCEx11_Annotation_album/src/main/webapp/upload";
 	
 	@RequestMapping(value="/list.do")
 	public ModelAndView listRequest(HttpServletRequest request, HttpServletResponse arg1) {
@@ -152,6 +152,7 @@ public class ConfigController {
 		BoardTO to = new BoardTO();
 		
 		try {
+			int flag = 1;
 			MultipartRequest multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy());
 			
 			to.setSubject(multi.getParameter("subject"));
@@ -174,10 +175,9 @@ public class ConfigController {
 				filesize = file.length();
 			}
 			to.setFilesize(filesize);
+			
 			Connection conn = null;
 			PreparedStatement pstmt = null;
-			
-			int flag = 1;
 			
 			try {
 				conn = this.dataSource.getConnection();
@@ -276,19 +276,18 @@ public class ConfigController {
 			
 			String sql = "select seq, writer, content, wdate from album_comment1 where pseq=? order by seq";
 			pstmt = conn.prepareStatement( sql );
-			pstmt.setString( 1, cto.getSeq() );
+			pstmt.setString( 1, to.getSeq() );
 			
 			rs = pstmt.executeQuery();
 
 			while( rs.next() ) {
 				cto = new CommentTO();
-				to.setSeq( rs.getString("seq" ) );
-				to.setWriter( rs.getString( "writer" ) );
-				to.setContent( rs.getString( "content" ) );
-				to.setWdate( rs.getString("wdate"));
+				cto.setSeq( rs.getString("seq" ) );
+				cto.setWriter( rs.getString( "writer" ) );
+				cto.setContent( rs.getString( "content" ) );
+				cto.setWdate( rs.getString("wdate"));
 				commentLists.add( cto );
 			}
-			
 		} catch( SQLException e ) {
 			System.out.println( "[에러] : " + e.getMessage() );
 		} finally {
@@ -338,7 +337,7 @@ public class ConfigController {
 		ResultSet rs = null;
 		
 		try {
-			conn = dataSource.getConnection();
+			conn = this.dataSource.getConnection();
 			String sql = "select subject, writer, mail, content, filename from album_board1 where seq=?";
 			pstmt = conn.prepareStatement( sql );
 			pstmt.setString( 1, to.getSeq() );
@@ -368,9 +367,10 @@ public class ConfigController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="modify_ok.do")	
+	@RequestMapping(value="modify_ok.do")
 	public ModelAndView modifyOkRequest(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("modifyOk 호출");
+		
 		try {
 			int maxFileSize = 1024 * 1024 * 5;
 			String encType = "utf-8";
@@ -394,8 +394,8 @@ public class ConfigController {
 			if (newfile != null) {
 				newfilesize = newfile.length();
 			}
+			
 			BoardTO to = new BoardTO();
-			to.setSeq(multi.getParameter("seq"));
 			
 			Connection conn = null;
 			PreparedStatement pstmt = null;
@@ -404,7 +404,14 @@ public class ConfigController {
 			int flag = 2;
 			
 			try {
-				conn = dataSource.getConnection();
+				to.setSeq(seq);
+				to.setSubject(subject);
+				to.setMail(mail);
+				to.setPassword(password);
+				to.setContent(content);
+				to.setFilename(newfilename);
+				
+				conn = this.dataSource.getConnection();
 				
 				String sql = "select filename from album_board1 where seq=?";
 				pstmt = conn.prepareStatement( sql );
@@ -415,7 +422,6 @@ public class ConfigController {
 				if( rs.next() ) {
 					deleteFileName = rs.getString( "filename" );
 				}
-				
 				pstmt.close();
 				
 				if( to.getFilename() != null ) {
@@ -439,8 +445,10 @@ public class ConfigController {
 				}
 				
 				int result = pstmt.executeUpdate();
+				System.out.println(result);
 				if( result == 0 ) {
 					flag = 1;		
+					
 				} else if( result == 1 ) {
 					flag = 0;
 					
@@ -456,16 +464,6 @@ public class ConfigController {
 				if( pstmt != null) try { pstmt.close(); } catch( SQLException e ) {}
 				if( conn != null) try { conn.close(); } catch( SQLException e ) {}
 			}
-			
-			to.setSeq(seq);
-			to.setSubject(subject);
-			to.setMail(mail);
-			to.setPassword(password);
-			to.setContent(content);
-			
-			System.out.println(password);
-			System.out.println(subject);
-			System.out.println(mail);
 			
 			request.setAttribute("flag", flag);
 			request.setAttribute("seq", seq);
@@ -484,14 +482,35 @@ public class ConfigController {
 	}
 	
 	@RequestMapping(value="delete.do")	
-	public ModelAndView deletekRequest(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView deleteRequest(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("DeleteAction 호출");
 		
 		BoardTO to = new BoardTO();
 		to.setSeq(request.getParameter("seq"));
 		
-		BoardDAO dao = new BoardDAO();
-		to = dao.boardDelete(to);
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = this.dataSource.getConnection();
+
+			String sql = "select subject, writer from album_board1 where seq=?";
+			pstmt = conn.prepareStatement( sql );
+			pstmt.setString( 1, to.getSeq() );
+			
+			rs = pstmt.executeQuery();
+			if( rs.next() ) {
+				to.setSubject( rs.getString( "subject" ) );
+				to.setWriter( rs.getString( "writer" ) );
+			}
+		} catch( SQLException e ) {
+			System.out.println( "[에러] : " + e.getMessage() );
+		} finally {
+			if( rs != null ) try { rs.close(); } catch( SQLException e ) {}
+			if( pstmt != null ) try { pstmt.close(); } catch( SQLException e ) {}
+			if( conn != null ) try { conn.close(); } catch( SQLException e ) {}
+		}
 		
 		request.setAttribute("to", to);
 		
@@ -506,16 +525,63 @@ public class ConfigController {
 	public ModelAndView deleteOkRequest(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("DeleteOkAction 호출");
 		
-		BoardTO dto = new BoardTO();
-		BoardDAO dao = new BoardDAO();
+		BoardTO to = new BoardTO();
 		
 		String seq = request.getParameter("seq");
 		String password = request.getParameter("password");
 		String cpage = request.getParameter("cpage");
 		
-		dto.setSeq(seq);
-		dto.setPassword(password);
-		int flag = dao.boardDeleteOk(dto);
+		to.setSeq(seq);
+		to.setPassword(password);
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		int flag = 2;
+		
+		try {
+			conn = dataSource.getConnection();
+			
+			String sql = "select filename from album_board1 where seq=?";
+			pstmt = conn.prepareStatement( sql );
+			pstmt.setString( 1, to.getSeq() );
+			
+			rs = pstmt.executeQuery();
+
+			String deleteFileName = null;
+			if( rs.next() ) {
+				deleteFileName = rs.getString( "filename" );
+			}
+			
+			pstmt.close();
+			
+			sql = "delete from album_board1 where seq=? and password=?";
+			pstmt = conn.prepareStatement( sql );
+			pstmt.setString( 1, to.getSeq() );
+			pstmt.setString( 2, to.getPassword() );
+			
+			int result = pstmt.executeUpdate();
+			if(result == 0) {
+				flag = 1;
+			} else if( result == 1 ) {
+				flag = 0;
+				
+				File file = new File( uploadPath, deleteFileName );
+				file.delete();
+
+				sql = "delete from album_comment1 where pseq=?";
+				pstmt = conn.prepareStatement( sql );
+				pstmt.setString( 1, to.getSeq() );
+				pstmt.executeUpdate();
+			}
+		} catch( SQLException e ) {
+			System.out.println("[에러] : " + e.getMessage() );
+		} finally {
+			if( rs != null ) try { rs.close(); } catch( SQLException e ) {}
+			if( pstmt != null ) try { pstmt.close(); } catch( SQLException e ) {}
+			if( conn != null ) try { conn.close(); } catch( SQLException e ) {}
+		}
 		
 		request.setAttribute("flag", flag);
 		request.setAttribute("seq", seq);
@@ -528,7 +594,7 @@ public class ConfigController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="comment_ok.do")	
+	@RequestMapping(value="comment_write_ok.do")	
 	public ModelAndView commentOkRequest(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println( "CommentWriteOkAction" );
 		
@@ -540,8 +606,37 @@ public class ConfigController {
 		cto.setWriter( request.getParameter( "cwriter" ) );
 		cto.setPassword( request.getParameter( "cpassword" ) );
 		cto.setContent( request.getParameter( "ccontent" ) );
-		CommentDAO cdao = new CommentDAO();
-		int flag = cdao.commentWriteOk( cto );
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		int flag = 1;
+		try {
+			conn = this.dataSource.getConnection();
+			
+			String sql = "insert into album_comment1 values (0, ?, ?, ?, ?, now())";
+			pstmt = conn.prepareStatement( sql );
+			pstmt.setString( 1, cto.getPseq() );
+			pstmt.setString( 2, cto.getWriter() );
+			pstmt.setString( 3, cto.getPassword() );
+			pstmt.setString( 4, cto.getContent() );
+			
+			int result = pstmt.executeUpdate();
+			if( result == 1 ) {
+				sql = "update album_board1 set cmt=cmt+1 where seq=?";
+				pstmt = conn.prepareStatement( sql );
+				pstmt.setString( 1, cto.getPseq() );
+				
+				pstmt.executeUpdate();
+
+				flag = 0;
+			}		
+		} catch( SQLException e ) {
+			System.out.println( "[에러] : " + e.getMessage() );
+		} finally {
+			if( pstmt != null) try { pstmt.close(); } catch( SQLException e ) {}
+			if( conn != null) try { conn.close(); } catch( SQLException e ) {}
+		}
 		
 		request.setAttribute("flag", flag);
 		request.setAttribute("cpage", cpage);

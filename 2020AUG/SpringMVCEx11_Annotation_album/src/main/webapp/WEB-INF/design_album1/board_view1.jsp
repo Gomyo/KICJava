@@ -112,7 +112,7 @@
 				<%= commentHtml %>
 			</table>
 
-			<form action="./comment/comment_write_ok.do" method="post" name="cfrm">
+			<form action="comment_write_ok.do" method="post" name="cfrm">
 			<input type="hidden" name="pseq" value="<%=seq %>" />	
 			<input type="hidden" name="cpage" value="<%= cpage %>"/>
 			<table>
