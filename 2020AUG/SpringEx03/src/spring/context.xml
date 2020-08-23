@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="helloBean1" class="spring.HelloBean" scope="prototype"/>
+	<bean id="helloBean2" class="spring.HelloBean">
+<!-- 		<constructor-arg> -->
+<!-- 			<value>홍길동</value> -->
+<!-- 		</constructor-arg> -->
+		<constructor-arg value="박문수"/>
+	</bean>
+	<bean id="helloBean3" class="spring.HelloBean">
+		<constructor-arg>
+			<value>길동</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>홍</value>
+		</constructor-arg>
+	</bean>
+</beans>

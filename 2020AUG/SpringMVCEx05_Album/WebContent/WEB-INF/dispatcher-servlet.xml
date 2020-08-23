@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+	
+	<bean name="/list.do" class="model3.ListAction"/>
+	<bean name="/view.do" class="model3.ViewAction"/>
+	<bean name="/write.do" class="model3.WriteAction"/>
+	<bean name="/write_ok.do" class="model3.WriteOkAction"/>
+	<bean name="/modify.do" class="model3.ModifyAction"/>
+	<bean name="/modify_ok.do" class="model3.ModifyOkAction"/>
+	<bean name="/delete.do" class="model3.DeleteAction"/>
+	<bean name="/delete_ok.do" class="model3.DeleteOkAction"/>
+	<bean name="/comment_ok.do" class="model3.CommentWriteOkAction"/>
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/design_album1/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+</beans>
