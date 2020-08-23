@@ -32,7 +32,6 @@
 	SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(is);
 	sqlSession = sqlSessionFactory.openSession(true);
 	
-
 // 	List<DeptTO> lists = sqlSession.selectList("selectlist1");
 	ArrayList<DeptTO> lists = (ArrayList)sqlSession.selectList("selectlist1");
 	
