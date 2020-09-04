@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-aop-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-aspects-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-beans-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-context-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-context-indexer-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-context-support-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-core-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-expression-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-instrument-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-jcl-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-jdbc-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-jms-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-messaging-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-orm-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-oxm-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-test-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-tx-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-web-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-webflux-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-webmvc-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Coding/KICJava/Spring APIs/spring-websocket-5.2.8.RELEASE.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
