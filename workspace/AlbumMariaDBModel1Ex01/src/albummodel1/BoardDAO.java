@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 
 public class BoardDAO {
 	private DataSource dataSource = null;
-	private String uploadPath = "C:/Coding/KICJava/workspace/AlbumMariaDBModel1Ex01/WebContent/upload/";
+	private String uploadPath = "E:/Coding/KICJava/workspace/AlbumMariaDBModel1Ex01/WebContent/upload/";
 	
 	public BoardDAO() {
 		// TODO Auto-generated constructor stub

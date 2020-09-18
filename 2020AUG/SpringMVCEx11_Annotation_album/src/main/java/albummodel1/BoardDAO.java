@@ -14,7 +14,8 @@ import javax.sql.DataSource;
 
 public class BoardDAO {
 	private DataSource dataSource = null;
-	private String uploadPath = "C:/Coding/KICJava/workspace/SpringMVCEx11_Annotation_album_Teacher/src/main/webapp/upload";
+//	private String uploadPath = "/home/master/apache-tomcat-9.0.37/webapps/SpringMVCEx11_Annotation_album/upload";
+	private String uploadPath = "E:/Coding/KICJava/2020AUG/SpringMVCEx11_Annotation_album/src/main/webapp/upload";
 	public BoardDAO() {
 		// TODO Auto-generated constructor stub
 		try {

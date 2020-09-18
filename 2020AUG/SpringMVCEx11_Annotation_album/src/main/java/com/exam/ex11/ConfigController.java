@@ -36,7 +36,10 @@ import albummodel1.CommentTO;
 public class ConfigController {
 	@Autowired
 	private DataSource dataSource;
-	private String uploadPath = "C:/Coding/KICJava/2020AUG/SpringMVCEx11_Annotation_album/src/main/webapp/upload";
+	private String uploadPath = "E:/Coding/KICJava/2020AUG/SpringMVCEx11_Annotation_album/src/main/webapp/upload";
+	
+	// Linux 적용을 위한 변경
+//	private String uploadPath = "/home/master/apache-tomcat-9.0.37/webapps/SpringMVCEx11_Annotation_album/upload";
 	
 	@RequestMapping(value="/list.do")
 	public ModelAndView listRequest(HttpServletRequest request, HttpServletResponse arg1) {

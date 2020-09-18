@@ -8,7 +8,7 @@
 <%@ page import="java.io.File" %>
 
 <%
-	String uploadPath = "C:/Coding/KICJava/workspace/AlbumMariaDBModel1Ex01/WebContent/upload/";
+	String uploadPath = "E:/Coding/KICJava/workspace/AlbumMariaDBModel1Ex01/WebContent/upload/";
 	int maxFileSize = 1024 * 1024 * 5;
 	String encType = "utf-8";
 	

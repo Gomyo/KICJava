@@ -1,0 +1,28 @@
+<%@ page language="java" contentType="text/json; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+[
+	{
+		"name":"모던 웰 디자인을 위한 HTML5 + CSS3 입문",
+		"publisher":"한빛미디어",
+		"author":"윤인성",
+		"price":"30000 원"
+	},
+	{
+		"name":"모던 웹을 위한 JavaScript + jQuery 입문",
+		"publisher":"한빛미디어",
+		"author":"윤인성",
+		"price":"32000 원"
+	},
+	{
+		"name":"모던 웹을 위한 node.j 5 프로그래밍, 한빛미디어",
+		"publisher":"한빛미디어",
+		"author":"윤인성",
+		"price":"22000 원"
+	},
+	{
+		"name":"모던 웹을 위한 HTML5 프로그래밍",
+		"publisher":"한빛미디어",
+		"author":"윤인성",
+		"price":"30000 원"
+	}
+]
